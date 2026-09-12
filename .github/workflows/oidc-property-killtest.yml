@@ -13,10 +13,11 @@ jobs:
   inspect-oidc-claim:
     runs-on: ubuntu-latest
     steps:
-      - name: Request and inspect GitHub OIDC claim
+      - name: Request GitHub OIDC token and test GCP authorization
         shell: bash
         run: |
           set -euo pipefail
+
           RESPONSE="$(curl --fail --silent --show-error \
             -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
             "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=authority-killtest")"
@@ -33,8 +34,44 @@ jobs:
           payload = token.split(".")[1]
           payload += "=" * (-len(payload) % 4)
           claims = json.loads(base64.urlsafe_b64decode(payload))
-
-          # Deliberately print only the two claims needed for this controlled test.
           print("repository=" + str(claims.get("repository")))
           print("repo_property_security_tier=" + str(claims.get("repo_property_security_tier")))
           PY
+
+          STS_RESPONSE="$(curl --fail --silent --show-error \
+            -X POST "https://sts.googleapis.com/v1/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            --data-urlencode "grant_type=urn:ietf:params:oauth:grant-type:token-exchange" \
+            --data-urlencode "audience=//iam.googleapis.com/projects/955080194984/locations/global/workloadIdentityPools/authority-killtest/providers/github" \
+            --data-urlencode "scope=https://www.googleapis.com/auth/cloud-platform" \
+            --data-urlencode "requested_token_type=urn:ietf:params:oauth:token-type:access_token" \
+            --data-urlencode "subject_token_type=urn:ietf:params:oauth:token-type:jwt" \
+            --data-urlencode "subject_token=${JWT}")"
+
+          ACCESS_TOKEN="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["access_token"])' <<< "$STS_RESPONSE")"
+
+          HTTP_CODE="$(curl --silent --show-error \
+            -o /tmp/project-response.json \
+            -w '%{http_code}' \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            "https://cloudresourcemanager.googleapis.com/v3/projects/g-star-raw-take-home-project")"
+
+          echo "gcp_project_get_http_status=${HTTP_CODE}"
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "gcp_project_get=AUTHORIZED"
+          elif [ "$HTTP_CODE" = "403" ]; then
+            echo "gcp_project_get=DENIED"
+          else
+            echo "gcp_project_get=UNEXPECTED"
+            python3 - <<'PY'
+          import json
+          try:
+              with open('/tmp/project-response.json') as f:
+                  data = json.load(f)
+              err = data.get('error', {})
+              print('gcp_error_status=' + str(err.get('status')))
+              print('gcp_error_message=' + str(err.get('message'))[:300])
+          except Exception as e:
+              print('gcp_error_parse=' + str(e))
+          PY
+          fi
