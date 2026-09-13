@@ -5,6 +5,7 @@ import argparse
 import importlib.util
 import json
 import os
+import re
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -17,6 +18,7 @@ spec.loader.exec_module(core)
 
 MAX_FILES = 500
 FETCH_WORKERS = 16
+GENERIC_ALIAS_KEYS = {"prop", "propname", "property", "propertyname"}
 
 
 def request(url: str):
@@ -85,12 +87,91 @@ def repository_documents(repository: str, commit: str):
     }
 
 
+def typed_constants(docs):
+    """Resolve simple uppercase string constants, including Python type annotations."""
+    constants = {}
+    pattern = re.compile(
+        r"(?m)^\s*(?:export\s+)?([A-Z][A-Z0-9_]{2,})"
+        r"(?:\s*:\s*[^=\n]+)?\s*=\s*['\"]([^'\"\n]{1,120})['\"]"
+    )
+    for _, text in docs:
+        for match in pattern.finditer(text):
+            value = match.group(2).strip()
+            if core.acceptable_name(value):
+                constants[match.group(1)] = value
+    return constants
+
+
+def augment_candidates(docs, candidates):
+    """Resolve aliases and add fixed property aliases tied to concrete property reads."""
+    constants = typed_constants(docs)
+    merged = {}
+
+    def merge_candidate(name, signals, files):
+        if not name or not core.acceptable_name(name):
+            return
+        key = core.canonical(name)
+        if key in GENERIC_ALIAS_KEYS:
+            return
+        row = merged.setdefault(key, {
+            "canonical": key,
+            "property": name,
+            "signals": set(),
+            "discovery_files": set(),
+        })
+        if row["property"].isupper() and not name.isupper():
+            row["property"] = name
+        row["signals"].update(signals)
+        row["discovery_files"].update(files)
+
+    for candidate in candidates:
+        name = constants.get(candidate["property"], candidate["property"])
+        merge_candidate(name, candidate["signals"], candidate["discovery_files"])
+
+    # A common reusable-workflow shape stores the fixed custom-property name in an
+    # environment alias and then compares API readback `.property_name` against it.
+    alias_pattern = re.compile(
+        r"(?m)^\s*(PROP|PROP_NAME|PROPERTY|PROPERTY_NAME)\s*:\s*"
+        r"['\"]?([A-Za-z][A-Za-z0-9_.-]+)['\"]?\s*(?:#.*)?$"
+    )
+    for url, text in docs:
+        low = text.lower()
+        concrete_read = "/properties/values" in low and (
+            "property_name" in low or "custom properties" in low or "custom_properties" in low
+        )
+        if not concrete_read:
+            continue
+        for match in alias_pattern.finditer(text):
+            merge_candidate(match.group(2), {"fixed-property-alias"}, {url})
+
+    rows = []
+    for row in merged.values():
+        rows.append({
+            "canonical": row["canonical"],
+            "property": row["property"],
+            "signals": sorted(row["signals"]),
+            "discovery_files": sorted(row["discovery_files"]),
+        })
+    rows.sort(key=lambda r: (-len(r["signals"]), r["property"].lower()))
+    return rows
+
+
+def classify_candidate(prop: str, docs):
+    row = core.classify_property(prop, docs)
+    # Integrity/rollout state alone is not a concrete policy edge. Preserve an S
+    # result established by an independent guard; only demote a would-be U result.
+    if row["label"] == "U" and row["extracted"]["consumer_relation"] == "integrity_marker":
+        row["label"] = "N"
+        row["reason"] = "integrity/rollout evidence alone does not establish a concrete policy edge"
+    return row
+
+
 def discover(repository: str, commit: str):
     docs, scan = repository_documents(repository, commit)
-    candidates = core.discover_candidates(docs)
+    candidates = augment_candidates(docs, core.discover_candidates(docs))
     classified = []
     for candidate in candidates:
-        row = core.classify_property(candidate["property"], docs)
+        row = classify_candidate(candidate["property"], docs)
         row.update({
             "canonical": candidate["canonical"],
             "discovery_signals": candidate["signals"],
