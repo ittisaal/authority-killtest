@@ -5,8 +5,9 @@ import argparse, json, re, urllib.request
 from collections import Counter
 from pathlib import Path
 from typing import Optional
+from urllib.parse import urlparse
 
-UA = 'authority-provenance-evidence-extractor/1.0'
+UA = 'authority-provenance-evidence-extractor/1.1'
 
 
 def raw_url(url: str) -> str:
@@ -34,7 +35,7 @@ def variants(name: str):
     return sorted((v for v in vals if v), key=len, reverse=True)
 
 
-def windows(text: str, names, radius=3200):
+def windows(text: str, names, radius=800):
     low = text.lower()
     out = []
     for name in names:
@@ -49,20 +50,54 @@ def windows(text: str, names, radius=3200):
     return out
 
 
+def extension(url: str) -> str:
+    path = urlparse(url).path.lower()
+    return Path(path).suffix
+
+
 def authority(prop: str, docs):
+    """Return repository-level write authority only when the frozen evidence states it concretely.
+
+    We intentionally do not treat conditional prose (e.g. "repo admins can set it IF the
+    schema is repo-editable") as proof of the deployed schema.
+    """
     signals, urls = set(), set()
     for p in parts(prop):
+        pv = variants(p)
         for url, text in docs:
-            for w in windows(text, variants(p), 4200):
+            # Structured object / IaC declaration: property and authority must be local.
+            for w in windows(text, pv, 900):
                 s = w.lower()
-                if re.search(r'values_editable_by\s*[=:]\s*["\']?org_and_repo_actors', s):
+                if re.search(r'values_editable_by["\']?\s*[=:]\s*["\']?org_and_repo_actors', s):
                     signals.add(True); urls.add(url)
-                if re.search(r'values_editable_by\s*[=:]\s*["\']?org_actors', s):
+                if re.search(r'values_editable_by["\']?\s*[=:]\s*["\']?org_actors', s):
                     signals.add(False); urls.add(url)
-                if ('repo admin' in s or 'repository admin' in s) and ('can set' in s or 'lets a repo admin' in s):
-                    signals.add(True); urls.add(url)
+                # Explicit fixed-authority prose is also useful when it names the selector itself.
                 if ('org-only' in s or 'org owners only' in s or 'org-owners-only' in s) and ('property' in s or 'selector' in s):
                     signals.add(False); urls.add(url)
+
+            # CLI schema creation: require the schema endpoint for THIS property.
+            for v in pv:
+                schema_pat = re.compile(r'/properties/schema/' + re.escape(v) + r'\b', re.I)
+                for m in schema_pat.finditer(text):
+                    w = text[max(0, m.start()-300):min(len(text), m.end()+1300)].lower()
+                    if re.search(r'values_editable_by\s*=\s*["\']?org_and_repo_actors', w):
+                        signals.add(True); urls.add(url)
+                    if re.search(r'values_editable_by\s*=\s*["\']?org_actors', w):
+                        signals.add(False); urls.add(url)
+
+            # Helper-call schema creation, common in shell/Python bootstrap code.
+            for line in text.splitlines():
+                low = line.lower()
+                if 'create_property' not in low:
+                    continue
+                if not any(v.lower() in low for v in pv):
+                    continue
+                if 'org_and_repo_actors' in low:
+                    signals.add(True); urls.add(url)
+                elif re.search(r'\borg_actors\b', low):
+                    signals.add(False); urls.add(url)
+
     if signals == {True}: return True, sorted(urls)
     if signals == {False}: return False, sorted(urls)
     return None, sorted(urls)
@@ -75,7 +110,7 @@ def consumer(prop: str, docs):
            'gate', 'condition', 'select', 'reads the property', 'uses the property', 'stamp', 'rollout')
     for p in parts(prop):
         for url, text in docs:
-            for w in windows(text, variants(p), 1100):
+            for w in windows(text, variants(p), 900):
                 s = w.lower()
                 schemaish = any(x in s for x in schema)
                 strong = any(x in s for x in use)
@@ -98,15 +133,51 @@ GUARDS = [
     r'review/ci protection',
     r'required status check',
 ]
+CODEISH = {'.py', '.sh', '.bash', '.yml', '.yaml', '.json', '.tf', '.hcl', '.js', '.ts', '.rb', '.go'}
+
+
+def callable_links(prop: str, docs):
+    """Find function names called near a target property and return matching definitions.
+
+    This provides a small, generic cross-file link: `property -> function call` in one file can
+    be joined to the function body in another evidence file without knowing any case names.
+    """
+    called = set()
+    for p in parts(prop):
+        for _, text in docs:
+            for w in windows(text, variants(p), 750):
+                for name in re.findall(r'\b([A-Za-z_][A-Za-z0-9_]*)\s*\(', w):
+                    if name not in {'if', 'for', 'while', 'print', 'get', 'set'}:
+                        called.add(name)
+    bodies = []
+    for url, text in docs:
+        for name in called:
+            pat = re.compile(r'(?m)^def\s+' + re.escape(name) + r'\s*\([^\n]*\):')
+            for m in pat.finditer(text):
+                nxt = re.search(r'(?m)^def\s+[A-Za-z_][A-Za-z0-9_]*\s*\(', text[m.end():])
+                end = m.end() + (nxt.start() if nxt else min(7000, len(text)-m.end()))
+                bodies.append((url, text[m.start():end]))
+    return bodies
 
 
 def semantics(prop: str, docs):
     red, guard = set(), set()
     for p in parts(prop):
+        pv = variants(p)
         for url, text in docs:
-            for w in windows(text, variants(p), 2300):
+            # Prose gets a tight local window to avoid borrowing unrelated policy language.
+            radius = 700 if extension(url) in {'.md', '.rst', '.txt'} else 1500
+            for w in windows(text, pv, radius):
                 if REDUCE.search(w) or REDUCE_R.search(w): red.add(url)
                 if any(re.search(g, w, re.I|re.S) for g in GUARDS): guard.add(url)
+
+    # Follow a property-associated function call into its definition for code/config evidence.
+    for url, body in callable_links(prop, docs):
+        if extension(url) in CODEISH and (REDUCE.search(body) or REDUCE_R.search(body)):
+            red.add(url)
+        if any(re.search(g, body, re.I|re.S) for g in GUARDS):
+            guard.add(url)
+
     reduction: Optional[bool] = True if red else None
     fixed: Optional[bool] = True if guard else (False if red else None)
     return reduction, fixed, sorted(red | guard)
