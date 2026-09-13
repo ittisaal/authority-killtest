@@ -26,25 +26,35 @@ jobs:
         run: python -m pip install pytest
       - name: Unit tests
         run: python -m pytest -q benchmark/discovery/test_discover_repository.py
-      - name: Run target-blind repository discovery
+      - name: Run target-blind development regression
         run: |
           python benchmark/discovery/evaluate_discovery.py \
             benchmark/discovery/cases.json \
             --output benchmark/discovery/results.json
-      - name: Show evaluation summary
+      - name: Run predeclared public holdout
+        run: |
+          python benchmark/discovery/evaluate_discovery.py \
+            benchmark/discovery/holdout.json \
+            --output benchmark/discovery/holdout-results.json
+      - name: Show evaluation summaries
         run: |
           python - <<'PY'
           import json
-          p='benchmark/discovery/results.json'
-          data=json.load(open(p))
-          print(json.dumps(data['summary'], indent=2, sort_keys=True))
-          print('\nCase results:')
-          for c in data['cases']:
-              print(c['id'], 'found=', c['target_found'], 'expected=', c['expected_label'],
-                    'predicted=', c['predicted_label'], 'candidates=', c['candidate_count'])
+          for title, p in [
+              ('development regression', 'benchmark/discovery/results.json'),
+              ('predeclared holdout', 'benchmark/discovery/holdout-results.json'),
+          ]:
+              data=json.load(open(p))
+              print('\n' + title)
+              print(json.dumps(data['summary'], indent=2, sort_keys=True))
+              for c in data['cases']:
+                  print(c['id'], 'found=', c['target_found'], 'expected=', c['expected_label'],
+                        'predicted=', c['predicted_label'], 'candidates=', c['candidate_count'])
           PY
-      - name: Upload discovery result
+      - name: Upload discovery results
         uses: actions/upload-artifact@v4
         with:
           name: repository-discovery-results
-          path: benchmark/discovery/results.json
+          path: |
+            benchmark/discovery/results.json
+            benchmark/discovery/holdout-results.json
