@@ -1,0 +1,134 @@
+name: Controlled security-gate benchmark
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-gate:
+    name: security-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out candidate state
+        uses: actions/checkout@v4
+
+      - name: Read repository custom properties
+        id: props
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/properties/values" \
+            > /tmp/properties.json
+
+          python3 - <<'PY'
+          import json
+          import os
+
+          with open('/tmp/properties.json', encoding='utf-8') as f:
+              rows = json.load(f)
+          values = {row['property_name']: row.get('value') for row in rows}
+
+          wanted = {
+              'security_scan_policy': 'unset',
+              'security_floor': 'unset',
+              'scan_profile': 'unset',
+          }
+          for key, default in wanted.items():
+              value = values.get(key, default)
+              print(f'{key}={value}')
+              with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
+                  out.write(f'{key}={value}\n')
+          PY
+
+      - name: Resolve effective gate policy
+        id: policy
+        shell: bash
+        env:
+          SCAN_POLICY: ${{ steps.props.outputs.security_scan_policy }}
+          SECURITY_FLOOR: ${{ steps.props.outputs.security_floor }}
+          SCAN_PROFILE: ${{ steps.props.outputs.scan_profile }}
+        run: |
+          set -euo pipefail
+
+          # Fixed independent guard: an org-only floor overrides any mutable bypass selector.
+          if [ "${SECURITY_FLOOR}" = "enforced" ]; then
+            EFFECTIVE="enforced"
+            REASON="fixed security_floor blocks bypass"
+          elif [ "${SCAN_POLICY}" = "bypass" ]; then
+            EFFECTIVE="bypass"
+            REASON="repository property selected bypass"
+          else
+            EFFECTIVE="enforced"
+            REASON="default/enforced security policy"
+          fi
+
+          # scan_profile is intentionally non-disabling: both allowed values remain protected.
+          case "${SCAN_PROFILE}" in
+            standard|hardened|unset) ;;
+            *)
+              echo "Unexpected scan_profile=${SCAN_PROFILE}; fail closed"
+              EFFECTIVE="enforced"
+              REASON="invalid value failed closed"
+              ;;
+          esac
+
+          echo "effective=${EFFECTIVE}" >> "${GITHUB_OUTPUT}"
+          echo "reason=${REASON}" >> "${GITHUB_OUTPUT}"
+          echo "effective_gate_policy=${EFFECTIVE}"
+          echo "policy_reason=${REASON}"
+
+      - name: Run security scan when protection is effective
+        if: steps.policy.outputs.effective == 'enforced'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f benchmark/attack-fixture/known-vulnerability.txt ]; then
+            echo "security_gate=BLOCKED"
+            echo "Known controlled vulnerability fixture detected."
+            exit 1
+          fi
+          echo "security_gate=SAFE"
+
+      - name: Record deliberate bypass
+        if: steps.policy.outputs.effective == 'bypass'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f benchmark/attack-fixture/known-vulnerability.txt ]; then
+            echo "security_gate=BYPASSED"
+            echo "Fixture is present, but the mutable property caused the required gate to succeed without scanning it."
+          else
+            echo "security_gate=BYPASSED_NO_FIXTURE"
+          fi
+
+      - name: Write evidence summary
+        if: always()
+        shell: bash
+        env:
+          SCAN_POLICY: ${{ steps.props.outputs.security_scan_policy }}
+          SECURITY_FLOOR: ${{ steps.props.outputs.security_floor }}
+          SCAN_PROFILE: ${{ steps.props.outputs.scan_profile }}
+          EFFECTIVE: ${{ steps.policy.outputs.effective }}
+          REASON: ${{ steps.policy.outputs.reason }}
+        run: |
+          {
+            echo "## Authority-provenance benchmark evidence"
+            echo ""
+            echo "- repository: \`${GITHUB_REPOSITORY}\`"
+            echo "- commit: \`${GITHUB_SHA}\`"
+            echo "- actor: \`${GITHUB_ACTOR}\`"
+            echo "- security_scan_policy: \`${SCAN_POLICY}\`"
+            echo "- security_floor: \`${SECURITY_FLOOR}\`"
+            echo "- scan_profile: \`${SCAN_PROFILE}\`"
+            echo "- effective gate: \`${EFFECTIVE}\`"
+            echo "- reason: ${REASON}"
+          } >> "${GITHUB_STEP_SUMMARY}"
