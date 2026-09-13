@@ -1,0 +1,35 @@
+name: Controlled U S N benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/synthetic/**'
+      - '.github/workflows/synthetic-usn-eval.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controlled-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Regression tests
+        run: python -m pytest -q benchmark/synthetic/test_evaluate_synthetic.py
+      - name: Evaluate controlled cases
+        run: |
+          python benchmark/synthetic/evaluate_synthetic.py \
+            benchmark/synthetic/cases.json \
+            --output benchmark/synthetic/results.json
+          cat benchmark/synthetic/results.json
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: controlled-usn-results
+          path: benchmark/synthetic/results.json
