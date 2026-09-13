@@ -21,10 +21,10 @@ jobs:
       - name: Install test runner
         run: python -m pip install pytest
       - name: Unit tests
-        run: python -m pytest -q benchmark/public-corpus/test_extract_evidence.py
-      - name: Extract from exact frozen evidence files
+        run: python -m pytest -q benchmark/public-corpus/test_*.py
+      - name: Extract and decide from exact frozen evidence files
         run: |
-          python benchmark/public-corpus/extract_evidence.py \
+          python benchmark/public-corpus/decide_extraction.py \
             benchmark/public-corpus/corpus.json \
             --output benchmark/public-corpus/raw-extraction-results.json
       - name: Show evaluation summary
