@@ -1,0 +1,163 @@
+{
+  "cases": [
+    {
+      "analyzer": "unsafe",
+      "commit": "3ff410faa96d2808f5c50580bde4ec6812f11db5",
+      "expected": "unsafe",
+      "id": "C01",
+      "match": true,
+      "reason": "actor-authorized mutation reaches a new effective protection/privilege state",
+      "repair_candidates": [
+        "centralize property write authority",
+        "make the consumer ignore repository-controlled state for the protection decision"
+      ],
+      "repository": "mcp-research/mcp-security-scans",
+      "witness_length": 1
+    },
+    {
+      "analyzer": "unknown",
+      "commit": "320c1f5f2d28095874e84d66ff9c392840ce1d0f",
+      "expected": "unknown",
+      "id": "C02",
+      "match": true,
+      "reason": "evidence is insufficient to establish the full composed effect",
+      "repair_candidates": [],
+      "repository": "swimblocks/.github",
+      "witness_length": null
+    },
+    {
+      "analyzer": "safe",
+      "commit": "cc0267886b6061eeaba22d303a22cdd4c1a2215c",
+      "expected": "safe",
+      "id": "C03",
+      "match": true,
+      "reason": "an independent guard prevents a marginal protection delta",
+      "repair_candidates": [],
+      "repository": "SpiceLabsHQ/.github",
+      "witness_length": null
+    },
+    {
+      "analyzer": "safe",
+      "commit": "a7f14e69f0784cdfb620f327fa30bcf1db46d253",
+      "expected": "safe",
+      "id": "C04",
+      "match": true,
+      "reason": "repository-scoped actor lacks mutation authority",
+      "repair_candidates": [],
+      "repository": "Verjson/.github",
+      "witness_length": null
+    },
+    {
+      "analyzer": "unknown",
+      "commit": "c859e1f24d3980cc6b4e1736589fd7b57468cf99",
+      "expected": "unknown",
+      "id": "C05",
+      "match": true,
+      "reason": "downstream consumer relation is incomplete",
+      "repair_candidates": [],
+      "repository": "hmcts/github-repository-rules",
+      "witness_length": null
+    },
+    {
+      "analyzer": "safe",
+      "commit": "8b65434e179610f7931f90d7d7b6c1c192839c1e",
+      "expected": "safe",
+      "id": "C06",
+      "match": true,
+      "reason": "repository-scoped actor lacks mutation authority",
+      "repair_candidates": [],
+      "repository": "meshery-extensions/.github",
+      "witness_length": null
+    },
+    {
+      "analyzer": "safe",
+      "commit": "12b842d8333861ebd5eb769591bb04c02ec7d046",
+      "expected": "safe",
+      "id": "C07",
+      "match": true,
+      "reason": "repository-scoped actor lacks mutation authority",
+      "repair_candidates": [],
+      "repository": "grandchallenge/gcl-standards",
+      "witness_length": null
+    },
+    {
+      "analyzer": "safe",
+      "commit": "f4ab5cb75f87d98f56b3b3bf8e69930198a30621",
+      "expected": "safe",
+      "id": "C08",
+      "match": true,
+      "reason": "no relevant consumer edge is present in the evaluated configuration",
+      "repair_candidates": [],
+      "repository": "dryvist/tofu-github",
+      "witness_length": null
+    },
+    {
+      "analyzer": "unknown",
+      "commit": "fb6f06b6cc5ae62fd5bb9de554e442f0109f1d52",
+      "expected": "unknown",
+      "id": "C09",
+      "match": true,
+      "reason": "mutation authority is not established",
+      "repair_candidates": [],
+      "repository": "goharbor/harbor",
+      "witness_length": null
+    },
+    {
+      "analyzer": "unknown",
+      "commit": "215f2bc9dea38ed26da578ea7e5cd5fde531a519",
+      "expected": "unknown",
+      "id": "C10",
+      "match": true,
+      "reason": "mutation authority is not established",
+      "repair_candidates": [],
+      "repository": "hyperpolymath/palimpsest-license",
+      "witness_length": null
+    },
+    {
+      "analyzer": "unknown",
+      "commit": "092a1e4d2ca0a08cb0b8f01a6ebdc8e44aa308d0",
+      "expected": "unknown",
+      "id": "C11",
+      "match": true,
+      "reason": "mutation authority is not established",
+      "repair_candidates": [],
+      "repository": "callmegreg-demo-org/codeql-central-config",
+      "witness_length": null
+    }
+  ],
+  "summary": {
+    "analyzer_counts": {
+      "safe": 5,
+      "unknown": 5,
+      "unsafe": 1
+    },
+    "analyzer_known_binary_confusion": {
+      "FN": 0,
+      "FP": 0,
+      "TN": 5,
+      "TP": 1
+    },
+    "baseline_editable_and_consumed_confusion": {
+      "FN": 0,
+      "FP": 1,
+      "TN": 4,
+      "TP": 1
+    },
+    "baseline_editable_only_confusion": {
+      "FN": 0,
+      "FP": 2,
+      "TN": 3,
+      "TP": 1
+    },
+    "corpus_size": 11,
+    "gold_counts": {
+      "safe": 5,
+      "unknown": 5,
+      "unsafe": 1
+    },
+    "known_binary_subset": 6,
+    "semantic_regression_matches": 11,
+    "semantic_regression_total": 11,
+    "unknowns_forced_to_binary": 0
+  }
+}
