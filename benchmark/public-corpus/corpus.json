@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-09-13",
+  "scope_note": "Semantic case corpus. Not a prevalence sample.",
+  "cases": [
+    {
+      "id": "C01",
+      "repository": "mcp-research/mcp-security-scans",
+      "commit": "3ff410faa96d2808f5c50580bde4ec6812f11db5",
+      "property": "GHAS_Status_Updated",
+      "expected_label": "unsafe",
+      "facts": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "marginal_protection_delta": true,
+        "security_reducing_state_reachable": true,
+        "independent_guard_blocks": false,
+        "evidence_complete": true
+      },
+      "reason": "Repository-scoped writers can set the timestamp property; recent complete-looking state causes the scan decision to skip a rescan.",
+      "evidence": [
+        "https://github.com/mcp-research/mcp-security-scans/blob/3ff410faa96d2808f5c50580bde4ec6812f11db5/create_repo_properties.sh",
+        "https://github.com/mcp-research/mcp-security-scans/blob/3ff410faa96d2808f5c50580bde4ec6812f11db5/src/functions.py",
+        "https://github.com/mcp-research/mcp-security-scans/blob/3ff410faa96d2808f5c50580bde4ec6812f11db5/src/analyze.py"
+      ]
+    },
+    {
+      "id": "C02",
+      "repository": "swimblocks/.github",
+      "commit": "320c1f5f2d28095874e84d66ff9c392840ce1d0f",
+      "property": "settings_version",
+      "expected_label": "unknown",
+      "facts": {
+        "actor_can_modify": true,
+        "consumer_relation": "integrity_marker",
+        "marginal_protection_delta": null,
+        "security_reducing_state_reachable": null,
+        "independent_guard_blocks": null,
+        "evidence_complete": false
+      },
+      "reason": "The marker is repository-editable and is used as rollout state, but the public material does not establish an automatic new privilege or protection delta.",
+      "evidence": [
+        "https://github.com/swimblocks/.github/blob/320c1f5f2d28095874e84d66ff9c392840ce1d0f/docs/reconciler.md",
+        "https://github.com/swimblocks/.github/blob/320c1f5f2d28095874e84d66ff9c392840ce1d0f/scripts/apply-settings.py"
+      ]
+    },
+    {
+      "id": "C03",
+      "repository": "SpiceLabsHQ/.github",
+      "commit": "cc0267886b6061eeaba22d303a22cdd4c1a2215c",
+      "property": "automerge-humans",
+      "expected_label": "safe",
+      "facts": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "marginal_protection_delta": false,
+        "security_reducing_state_reachable": true,
+        "independent_guard_blocks": true,
+        "evidence_complete": true
+      },
+      "reason": "The opt-in affects auto-merge arming, while independent review/CI protections remain in force; the security-sensitive exception selector is centrally governed.",
+      "evidence": [
+        "https://github.com/SpiceLabsHQ/.github/blob/cc0267886b6061eeaba22d303a22cdd4c1a2215c/README.md",
+        "https://github.com/SpiceLabsHQ/.github/blob/cc0267886b6061eeaba22d303a22cdd4c1a2215c/rulesets/README.md"
+      ]
+    },
+    {
+      "id": "C04",
+      "repository": "Verjson/.github",
+      "commit": "a7f14e69f0784cdfb620f327fa30bcf1db46d253",
+      "property": "verjson-node-floor",
+      "expected_label": "safe",
+      "facts": {
+        "actor_can_modify": false,
+        "consumer_relation": "policy_edge",
+        "marginal_protection_delta": null,
+        "security_reducing_state_reachable": false,
+        "independent_guard_blocks": null,
+        "evidence_complete": true
+      },
+      "reason": "The property selects a required-check lane but is explicitly org-only.",
+      "evidence": [
+        "https://github.com/Verjson/.github/blob/a7f14e69f0784cdfb620f327fa30bcf1db46d253/scripts/node-floor-ruleset.py",
+        "https://github.com/Verjson/.github/blob/a7f14e69f0784cdfb620f327fa30bcf1db46d253/docs/decisions/0172-opt-in-node-floor-preparation/README.md"
+      ]
+    },
+    {
+      "id": "C05",
+      "repository": "hmcts/github-repository-rules",
+      "commit": "c859e1f24d3980cc6b4e1736589fd7b57468cf99",
+      "property": "is_production",
+      "expected_label": "unknown",
+      "facts": {
+        "actor_can_modify": true,
+        "consumer_relation": "unknown",
+        "marginal_protection_delta": null,
+        "security_reducing_state_reachable": null,
+        "independent_guard_blocks": null,
+        "evidence_complete": false
+      },
+      "reason": "The property is repository-editable, but no concrete security-sensitive consumer is established in the frozen public evidence.",
+      "evidence": [
+        "https://github.com/hmcts/github-repository-rules/blob/c859e1f24d3980cc6b4e1736589fd7b57468cf99/custom-properties/set_org_custom_properties.py"
+      ]
+    },
+    {
+      "id": "C06",
+      "repository": "meshery-extensions/.github",
+      "commit": "8b65434e179610f7931f90d7d7b6c1c192839c1e",
+      "property": "support",
+      "expected_label": "safe",
+      "facts": {
+        "actor_can_modify": false,
+        "consumer_relation": "operational_metadata",
+        "marginal_protection_delta": false,
+        "security_reducing_state_reachable": false,
+        "independent_guard_blocks": null,
+        "evidence_complete": true
+      },
+      "reason": "Schema administration is separated from routine automation and the property is org-only.",
+      "evidence": [
+        "https://github.com/meshery-extensions/.github/blob/8b65434e179610f7931f90d7d7b6c1c192839c1e/support-labels/scripts/bootstrap-schema.sh",
+        "https://github.com/meshery-extensions/.github/blob/8b65434e179610f7931f90d7d7b6c1c192839c1e/support-labels/scripts/apply-support-labels.sh",
+        "https://github.com/meshery-extensions/.github/blob/8b65434e179610f7931f90d7d7b6c1c192839c1e/support-labels/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": "C07",
+      "repository": "grandchallenge/gcl-standards",
+      "commit": "12b842d8333861ebd5eb769591bb04c02ec7d046",
+      "property": "constitutional_profile + authority_scope",
+      "expected_label": "safe",
+      "facts": {
+        "actor_can_modify": false,
+        "consumer_relation": "governance_state",
+        "marginal_protection_delta": null,
+        "security_reducing_state_reachable": false,
+        "independent_guard_blocks": null,
+        "evidence_complete": true
+      },
+      "reason": "Live readback evidence records both schemas as org-only and preserves the active ruleset state.",
+      "evidence": [
+        "https://github.com/grandchallenge/gcl-standards/blob/12b842d8333861ebd5eb769591bb04c02ec7d046/evidence/settings-readback/GCL-GHOS-INTELLECT-PROFILE-RECONCILIATION-001.json",
+        "https://github.com/grandchallenge/gcl-standards/blob/12b842d8333861ebd5eb769591bb04c02ec7d046/implementation/2026-07-29_LIVE_SETTINGS_AUDIT.md"
+      ]
+    },
+    {
+      "id": "C08",
+      "repository": "dryvist/tofu-github",
+      "commit": "f4ab5cb75f87d98f56b3b3bf8e69930198a30621",
+      "property": "docs",
+      "expected_label": "safe",
+      "facts": {
+        "actor_can_modify": true,
+        "consumer_relation": "confirmed_no_policy_edge",
+        "marginal_protection_delta": false,
+        "security_reducing_state_reachable": false,
+        "independent_guard_blocks": null,
+        "evidence_complete": true
+      },
+      "reason": "The property is repository-editable, but the co-located ruleset targets a repository name rather than the property; coexistence is not treated as an edge.",
+      "evidence": [
+        "https://github.com/dryvist/tofu-github/blob/f4ab5cb75f87d98f56b3b3bf8e69930198a30621/docs-publisher.tf"
+      ]
+    },
+    {
+      "id": "C09",
+      "repository": "goharbor/harbor",
+      "commit": "fb6f06b6cc5ae62fd5bb9de554e442f0109f1d52",
+      "property": "SKIP_PROXY_CACHE",
+      "expected_label": "unknown",
+      "facts": {
+        "actor_can_modify": null,
+        "consumer_relation": "policy_edge",
+        "marginal_protection_delta": null,
+        "security_reducing_state_reachable": null,
+        "independent_guard_blocks": null,
+        "evidence_complete": false
+      },
+      "reason": "The workflow consumes the property to skip a CI job, but the frozen public evidence does not establish who may edit the property.",
+      "evidence": [
+        "https://github.com/goharbor/harbor/blob/fb6f06b6cc5ae62fd5bb9de554e442f0109f1d52/.github/workflows/CI.yml"
+      ]
+    },
+    {
+      "id": "C10",
+      "repository": "hyperpolymath/palimpsest-license",
+      "commit": "215f2bc9dea38ed26da578ea7e5cd5fde531a519",
+      "property": "pmpl_require_signatures",
+      "expected_label": "unknown",
+      "facts": {
+        "actor_can_modify": null,
+        "consumer_relation": "policy_edge",
+        "marginal_protection_delta": true,
+        "security_reducing_state_reachable": null,
+        "independent_guard_blocks": null,
+        "evidence_complete": false
+      },
+      "reason": "The property gates provenance/signature verification, but public schema/editability evidence is missing.",
+      "evidence": [
+        "https://github.com/hyperpolymath/palimpsest-license/blob/215f2bc9dea38ed26da578ea7e5cd5fde531a519/tools/integrations/github-actions/pmpl-check.yml"
+      ]
+    },
+    {
+      "id": "C11",
+      "repository": "callmegreg-demo-org/codeql-central-config",
+      "commit": "092a1e4d2ca0a08cb0b8f01a6ebdc8e44aa308d0",
+      "property": "Application_Business_Criticality",
+      "expected_label": "unknown",
+      "facts": {
+        "actor_can_modify": null,
+        "consumer_relation": "policy_edge",
+        "marginal_protection_delta": true,
+        "security_reducing_state_reachable": true,
+        "independent_guard_blocks": null,
+        "evidence_complete": false
+      },
+      "reason": "The reusable workflow maps Low to a successful no-scan path and documentation describes repository-editable schemas, but the live schema for this deployment is not publicly confirmed.",
+      "evidence": [
+        "https://github.com/callmegreg-demo-org/codeql-central-config/blob/092a1e4d2ca0a08cb0b8f01a6ebdc8e44aa308d0/README.md",
+        "https://github.com/callmegreg-demo-org/codeql-central-config/blob/092a1e4d2ca0a08cb0b8f01a6ebdc8e44aa308d0/.github/workflows/codeql-reusable.yml"
+      ]
+    }
+  ]
+}
