@@ -1,0 +1,53 @@
+name: Controlled security gate
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  security-gate:
+    name: security-gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read security_scan_policy custom property
+        id: policy
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          RESPONSE="$(curl --fail --silent --show-error \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/${REPOSITORY}/properties/values")"
+
+          POLICY="$(python3 -c 'import json,sys; xs=json.load(sys.stdin); print(next((str(x.get("value")) for x in xs if x.get("property_name")=="security_scan_policy"), "missing"))' <<< "$RESPONSE")"
+          echo "security_scan_policy=${POLICY}"
+          echo "policy=${POLICY}" >> "$GITHUB_OUTPUT"
+
+      - name: Deliberately bypass security inspection
+        if: steps.policy.outputs.policy == 'bypass'
+        run: |
+          echo "CONTROLLED EXPERIMENT: security gate reports success without inspecting the fixture."
+          echo "result=BYPASSED"
+
+      - name: Enforce security inspection
+        if: steps.policy.outputs.policy != 'bypass'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f benchmark/fixtures/known-unsafe.txt ]; then
+            echo "Known-unsafe research fixture detected."
+            echo "result=BLOCKED"
+            exit 1
+          fi
+          echo "No known-unsafe fixture detected."
+          echo "result=PASSED"
