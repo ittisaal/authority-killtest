@@ -1,4 +1,4 @@
-version: 2
+version: 3
 threat_actor: repository_actor_with_property_write_authority
 
 scenarios:
@@ -28,48 +28,56 @@ scenarios:
 
   - id: U3-required-security-gate-bypass
     class: unsafe
-    status: repo-side-implemented-needs-org-admin
+    status: complete
     property:
       name: security_scan_policy
       type: single_select
       allowed_values: [enforced, bypass]
       values_editable_by: org_and_repo_actors
-    consumer: .github/workflows/benchmark-security-gate.yml
+    consumer: .github/workflows/security-scan-gate.yml
+    controlled_commit: 4678f73bb0b953e96ecf17f53d016bbb00992ee8
     path:
       - repository actor changes security_scan_policy enforced -> bypass
       - required GitHub Actions security-gate reads repository property
-      - bypass value causes gate to report success without inspecting the controlled vulnerability fixture
-      - branch ruleset accepts the required check
-      - a PR blocked in the baseline state becomes mergeable
-    manual_prerequisites:
-      - create security_scan_policy in ittisaal with values enforced/bypass and allow repository actors to edit
-      - set authority-killtest to enforced initially
-      - require the status check security-gate on main
+      - bypass value causes the gate to report success without inspecting the controlled fixture
+      - required-check outcome changes while PR commit and workflow stay fixed
+    evidence:
+      enforced_job: 103688967980
+      enforced_result: BLOCKED
+      bypass_job: 103689271407
+      bypass_result: success
     evidence_target: same PR/commit fails under enforced and succeeds under bypass with no code change
 
   - id: U4-ruleset-selection-bypass
     class: unsafe
-    status: designed-needs-org-admin
+    status: complete
     property:
       name: branch_protection_profile
       type: single_select
       allowed_values: [protected, excluded]
       values_editable_by: org_and_repo_actors
+    organization_ruleset:
+      id: 23150600
+      name: u4-property-selected-protection
+      selector: branch_protection_profile=protected
+      rule: require pull request with one approving review on default branch
+    controlled_commit: b9ed6e403b49566ac5b91b2ffc0173b5b0402990
     path:
       - organization ruleset targets repositories where branch_protection_profile=protected
-      - ruleset requires pull request and approving review
-      - repository actor changes property protected -> excluded
-      - repository no longer matches ruleset
-      - actor gains direct-push/merge behavior previously denied
-    manual_prerequisites:
-      - create branch_protection_profile in ittisaal with values protected/excluded and allow repository actors to edit
-      - create organization ruleset conditioned on branch_protection_profile=protected
-      - set authority-killtest to protected initially
-    evidence_target: ruleset applies before mutation and no longer applies after mutation
+      - direct update of main to controlled commit is rejected in protected state
+      - repository actor changes only the property protected -> excluded
+      - repository no longer matches the organization ruleset
+      - exact same direct update is accepted
+    evidence:
+      protected_result: rejected; Changes must be made through a pull request
+      excluded_result: accepted
+      restored_final_value: protected
+      local_ruleset_disabled: 23143969
+    evidence_target: exact same commit is denied before property mutation and accepted after mutation
 
   - id: S1-org-only-selector
     class: safe
-    status: designed-needs-org-admin
+    status: optional-not-run
     property:
       name: org_only_security_profile
       type: single_select
@@ -80,7 +88,7 @@ scenarios:
 
   - id: S2-fixed-guard
     class: safe
-    status: repo-side-implemented-needs-org-admin
+    status: complete
     mutable_property:
       name: security_scan_policy
       dangerous_value: bypass
@@ -89,19 +97,27 @@ scenarios:
       name: security_floor
       value: enforced
       values_editable_by: org_actors
-    consumer: .github/workflows/benchmark-security-gate.yml
-    reason_safe: security_floor=enforced forces the scan even when the repository actor selects bypass
+    consumer: .github/workflows/security-scan-gate.yml
+    evidence:
+      job: 103690360163
+      result: BLOCKED
+    reason_safe: security_floor=enforced forces effective enforcement even when the repository actor selects bypass
     evidence_target: fixture remains blocked after repository actor changes security_scan_policy to bypass
 
   - id: S3-value-domain-block
     class: safe
-    status: repo-side-implemented-needs-org-admin
+    status: complete
     property:
       name: scan_profile
       type: single_select
       allowed_values: [standard, hardened]
       values_editable_by: org_and_repo_actors
-    consumer: .github/workflows/benchmark-security-gate.yml
+    consumer: .github/workflows/security-scan-gate.yml
     downstream_dangerous_value: disabled
+    evidence:
+      standard_job: 103691060202
+      standard_result: BLOCKED
+      hardened_job: 103691189657
+      hardened_result: BLOCKED
     reason_safe: repository actor can mutate the property but cannot select a value that disables the gate
     evidence_target: both allowed values leave the fixture blocked
