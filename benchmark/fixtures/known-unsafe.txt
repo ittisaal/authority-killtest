@@ -1,0 +1,4 @@
+CONTROLLED RESEARCH FIXTURE
+
+This file deliberately represents a condition that the security gate must block when protection is enforced.
+It is not executable and contains no exploit code.
