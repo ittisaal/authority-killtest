@@ -1,0 +1,58 @@
+{
+  "experiment": "candidate-harvest-v1",
+  "purpose": "candidate discovery only; not prevalence",
+  "schema_version": 1,
+  "search_universe": "Sourcegraph.com indexed public GitHub repositories",
+  "signatures": [
+    {
+      "count": 10000,
+      "id": "H01",
+      "query": "github.event.repository.custom_properties"
+    },
+    {
+      "count": 10000,
+      "id": "H02",
+      "query": "github.event.repository.custom_properties["
+    },
+    {
+      "count": 10000,
+      "id": "H03",
+      "query": "repository.custom_properties"
+    },
+    {
+      "count": 10000,
+      "id": "H04",
+      "query": "values_editable_by"
+    },
+    {
+      "count": 10000,
+      "id": "H05",
+      "query": "org_and_repo_actors"
+    },
+    {
+      "count": 10000,
+      "id": "H06",
+      "query": "repo_property_"
+    },
+    {
+      "count": 10000,
+      "id": "H07",
+      "query": "github_organization_custom_properties"
+    },
+    {
+      "count": 10000,
+      "id": "H08",
+      "query": "github_repository_custom_properties"
+    },
+    {
+      "count": 10000,
+      "id": "H09",
+      "query": "/properties/values"
+    },
+    {
+      "count": 10000,
+      "id": "H10",
+      "query": "custom_properties["
+    }
+  ]
+}
