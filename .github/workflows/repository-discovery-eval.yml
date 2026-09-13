@@ -1,0 +1,48 @@
+name: Repository discovery evaluation
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/discovery/**'
+      - 'benchmark/public-corpus/extract_evidence.py'
+      - '.github/workflows/repository-discovery-eval.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  discovery-eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Unit tests
+        run: python -m pytest -q benchmark/discovery/test_discover_repository.py
+      - name: Run target-blind repository discovery
+        run: |
+          python benchmark/discovery/evaluate_discovery.py \
+            benchmark/discovery/cases.json \
+            --output benchmark/discovery/results.json
+      - name: Show evaluation summary
+        run: |
+          python - <<'PY'
+          import json
+          p='benchmark/discovery/results.json'
+          data=json.load(open(p))
+          print(json.dumps(data['summary'], indent=2, sort_keys=True))
+          print('\nCase results:')
+          for c in data['cases']:
+              print(c['id'], 'found=', c['target_found'], 'expected=', c['expected_label'],
+                    'predicted=', c['predicted_label'], 'candidates=', c['candidate_count'])
+          PY
+      - name: Upload discovery result
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-discovery-results
+          path: benchmark/discovery/results.json
