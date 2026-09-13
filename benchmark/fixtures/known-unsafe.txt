@@ -1,0 +1,2 @@
+CONTROLLED_RESEARCH_FIXTURE=KNOWN_UNSAFE
+This file is inert. Its only purpose is to give the controlled security-gate workflow something deterministic to block.
