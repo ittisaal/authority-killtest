@@ -13,34 +13,93 @@ jobs:
     name: security-gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out candidate state
+        uses: actions/checkout@v4
 
-      - name: Read security_scan_policy custom property
-        id: policy
+      - name: Read repository custom properties
+        id: props
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
-          RESPONSE="$(curl --fail --silent --show-error \
+          RESPONSE="$(curl --fail --silent --show-error --location \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "X-GitHub-Api-Version: 2026-03-10" \
             "https://api.github.com/repos/${REPOSITORY}/properties/values")"
 
-          POLICY="$(python3 -c 'import json,sys; xs=json.load(sys.stdin); print(next((str(x.get("value")) for x in xs if x.get("property_name")=="security_scan_policy"), "missing"))' <<< "$RESPONSE")"
-          echo "security_scan_policy=${POLICY}"
-          echo "policy=${POLICY}" >> "$GITHUB_OUTPUT"
+          export RESPONSE
+          python3 - <<'PY'
+          import json
+          import os
+
+          rows = json.loads(os.environ['RESPONSE'])
+          values = {row['property_name']: row.get('value') for row in rows}
+          wanted = {
+              'security_scan_policy': 'unset',
+              'security_floor': 'unset',
+              'scan_profile': 'unset',
+          }
+          for key, default in wanted.items():
+              value = values.get(key, default)
+              print(f'{key}={value}')
+              with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
+                  out.write(f'{key}={value}\n')
+          PY
+
+      - name: Resolve effective gate policy
+        id: policy
+        shell: bash
+        env:
+          SCAN_POLICY: ${{ steps.props.outputs.security_scan_policy }}
+          SECURITY_FLOOR: ${{ steps.props.outputs.security_floor }}
+          SCAN_PROFILE: ${{ steps.props.outputs.scan_profile }}
+        run: |
+          set -euo pipefail
+
+          # Safe control S2: an independent org-only floor overrides a mutable bypass selector.
+          if [ "${SECURITY_FLOOR}" = "enforced" ]; then
+            EFFECTIVE="enforced"
+            REASON="fixed security_floor blocks bypass"
+          elif [ "${SCAN_POLICY}" = "bypass" ]; then
+            EFFECTIVE="bypass"
+            REASON="repository property selected bypass"
+          else
+            EFFECTIVE="enforced"
+            REASON="default/enforced security policy"
+          fi
+
+          # Safe control S3: standard/hardened are both non-disabling values.
+          case "${SCAN_PROFILE}" in
+            standard|hardened|unset) ;;
+            *)
+              echo "Unexpected scan_profile=${SCAN_PROFILE}; fail closed"
+              EFFECTIVE="enforced"
+              REASON="invalid scan_profile failed closed"
+              ;;
+          esac
+
+          echo "effective=${EFFECTIVE}" >> "${GITHUB_OUTPUT}"
+          echo "reason=${REASON}" >> "${GITHUB_OUTPUT}"
+          echo "effective_gate_policy=${EFFECTIVE}"
+          echo "policy_reason=${REASON}"
 
       - name: Deliberately bypass security inspection
-        if: steps.policy.outputs.policy == 'bypass'
+        if: steps.policy.outputs.effective == 'bypass'
+        shell: bash
         run: |
-          echo "CONTROLLED EXPERIMENT: security gate reports success without inspecting the fixture."
-          echo "result=BYPASSED"
+          set -euo pipefail
+          if [ -f benchmark/fixtures/known-unsafe.txt ]; then
+            echo "CONTROLLED EXPERIMENT: fixture present but scan intentionally skipped."
+            echo "result=BYPASSED"
+          else
+            echo "result=BYPASSED_NO_FIXTURE"
+          fi
 
       - name: Enforce security inspection
-        if: steps.policy.outputs.policy != 'bypass'
+        if: steps.policy.outputs.effective == 'enforced'
         shell: bash
         run: |
           set -euo pipefail
@@ -51,3 +110,26 @@ jobs:
           fi
           echo "No known-unsafe fixture detected."
           echo "result=PASSED"
+
+      - name: Write evidence summary
+        if: always()
+        shell: bash
+        env:
+          SCAN_POLICY: ${{ steps.props.outputs.security_scan_policy }}
+          SECURITY_FLOOR: ${{ steps.props.outputs.security_floor }}
+          SCAN_PROFILE: ${{ steps.props.outputs.scan_profile }}
+          EFFECTIVE: ${{ steps.policy.outputs.effective }}
+          REASON: ${{ steps.policy.outputs.reason }}
+        run: |
+          {
+            echo "## Authority-provenance benchmark evidence"
+            echo ""
+            echo "- repository: \`${GITHUB_REPOSITORY}\`"
+            echo "- commit: \`${GITHUB_SHA}\`"
+            echo "- actor: \`${GITHUB_ACTOR}\`"
+            echo "- security_scan_policy: \`${SCAN_POLICY}\`"
+            echo "- security_floor: \`${SECURITY_FLOOR}\`"
+            echo "- scan_profile: \`${SCAN_PROFILE}\`"
+            echo "- effective gate: \`${EFFECTIVE}\`"
+            echo "- reason: ${REASON}"
+          } >> "${GITHUB_STEP_SUMMARY}"
