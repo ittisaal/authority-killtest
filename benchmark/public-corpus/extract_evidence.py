@@ -62,17 +62,24 @@ def authority(prop: str, docs):
     schema is repo-editable") as proof of the deployed schema.
     """
     signals, urls = set(), set()
+    prose_ext = {'.md', '.rst', '.txt'}
     for p in parts(prop):
         pv = variants(p)
         for url, text in docs:
             # Structured object / IaC declaration: property and authority must be local.
-            for w in windows(text, pv, 900):
+            # Plain prose is excluded here; Markdown must prove authority through an actual
+            # schema command below, not by merely mentioning the editability mode.
+            if extension(url) not in prose_ext:
+                for w in windows(text, pv, 900):
+                    s = w.lower()
+                    if re.search(r'values_editable_by["\']?\s*[=:]\s*["\']?org_and_repo_actors', s):
+                        signals.add(True); urls.add(url)
+                    if re.search(r'values_editable_by["\']?\s*[=:]\s*["\']?org_actors', s):
+                        signals.add(False); urls.add(url)
+
+            # Explicit fixed-authority prose is safe to use when it directly names the selector.
+            for w in windows(text, pv, 500):
                 s = w.lower()
-                if re.search(r'values_editable_by["\']?\s*[=:]\s*["\']?org_and_repo_actors', s):
-                    signals.add(True); urls.add(url)
-                if re.search(r'values_editable_by["\']?\s*[=:]\s*["\']?org_actors', s):
-                    signals.add(False); urls.add(url)
-                # Explicit fixed-authority prose is also useful when it names the selector itself.
                 if ('org-only' in s or 'org owners only' in s or 'org-owners-only' in s) and ('property' in s or 'selector' in s):
                     signals.add(False); urls.add(url)
 
