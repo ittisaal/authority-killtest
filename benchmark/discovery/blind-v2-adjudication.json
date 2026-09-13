@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v2",
+  "raw_run": {
+    "run_id": 34754127136,
+    "job_id": 103715511501,
+    "artifact_id": 10317006525,
+    "artifact_name": "blind-discovery-v2-raw-results",
+    "artifact_sha256": "d8e65a3ad471cbfb63b9412b5dc34b22bb2d4d200fb7ef97fff07c9d08e8a250",
+    "frozen_head": "879f6404e80e80c8d43c573d4940998963a274e1"
+  },
+  "target_commitment_sha256": "7d0d095a0c8538683230baf8ae88a57e735ba9a7cd34bf89755e712c2bd81b87",
+  "scoring_rule": "A target is found only when a discovered property canonically matches the predeclared target. Strict U/S/N adjudication uses publicly observable evidence at the frozen snapshot. U* is a separate annotation and does not replace the strict label.",
+  "summary": {
+    "cases": 14,
+    "distinct_owners": 14,
+    "execution_errors": 0,
+    "targets_found": 9,
+    "target_discovery_rate": 0.6428571428571429,
+    "strict_manual_labels": {"U": 0, "S": 5, "N": 9},
+    "found_target_predictions": {"U": 0, "S": 1, "N": 8},
+    "semantic_correct_given_target_found": 8,
+    "semantic_total_given_target_found": 9,
+    "semantic_accuracy_given_target_found": 0.8888888888888888,
+    "end_to_end_correct": 8,
+    "end_to_end_total": 14,
+    "end_to_end_accuracy": 0.5714285714285714,
+    "false_U": 0,
+    "U_star_annotations": 2
+  },
+  "cases": [
+    {"id":"V201","target_property":"skip-harden-runner","target_found":true,"predicted":"N","strict_label":"N","correct":true,"annotation":"U* demo/effect-visible","reason":"The code contains the skip behavior, but public evidence does not establish repository-level editability of the deployed property."},
+    {"id":"V202","target_property":"portfolio","target_found":false,"predicted":null,"strict_label":"S","correct":false,"reason":"The property is repository-editable in the public builder, but observed uses are portfolio/taxonomy/validation/reporting metadata rather than a protection or authorization selector."},
+    {"id":"V203","target_property":"fleet-managed","target_found":false,"predicted":null,"strict_label":"S","correct":false,"reason":"The public contract explicitly sets values_editable_by to org_actors, so repository-level actors cannot change the value."},
+    {"id":"V204","target_property":"team","target_found":true,"predicted":"N","strict_label":"N","correct":true,"reason":"Custom properties are used for filtering organization-wide jobs and as job inputs, but the public snapshot does not establish who may edit the concrete team property."},
+    {"id":"V205","target_property":"service_tier","target_found":true,"predicted":"S","strict_label":"S","correct":true,"reason":"The property is exported as an observability resource attribute; no protection or authorization consumer is present in the snapshot."},
+    {"id":"V206","target_property":"testproperty","target_found":true,"predicted":"N","strict_label":"S","correct":false,"reason":"This is a getter/action usage example that reads or exposes the property as output/environment data; no protection or authorization consumer is shown."},
+    {"id":"V207","target_property":"team","target_found":true,"predicted":"N","strict_label":"N","correct":true,"reason":"The public article demonstrates that a team claim can be used in federated credential matching, but does not establish a concrete deployed property's edit authority and deployment state."},
+    {"id":"V208","target_property":"team","target_found":false,"predicted":null,"strict_label":"S","correct":false,"reason":"The validation record explicitly removes the custom-property workflow use and replaces it with vars.TEAM; the frozen snapshot therefore does not contain the claimed custom-property policy edge."},
+    {"id":"V209","target_property":"environment_tier","target_found":false,"predicted":null,"strict_label":"N","correct":false,"reason":"GitHub documentation establishes the mechanism, but not a concrete deployment with observable property authority and downstream policy state."},
+    {"id":"V210","target_property":"environment_tier","target_found":false,"predicted":null,"strict_label":"N","correct":false,"reason":"This repository mirrors documentation of the mechanism rather than establishing a concrete deployment and authority chain."},
+    {"id":"V211","target_property":"SKIP_PROXY_CACHE","target_found":true,"predicted":"N","strict_label":"N","correct":true,"annotation":"U* effect-visible","reason":"The workflow clearly changes whether the proxy-cache test runs, but public evidence does not establish repository-level editability of the property."},
+    {"id":"V212","target_property":"workspace_id","target_found":true,"predicted":"N","strict_label":"N","correct":true,"reason":"The tool accepts repo_property_workspace_id as a trust-claim name, but the snapshot does not establish a concrete deployed property, its authority, and a deployed downstream decision."},
+    {"id":"V213","target_property":"team","target_found":true,"predicted":"N","strict_label":"N","correct":true,"reason":"The guide documents repo_property_* for ABAC, but no concrete deployment or property edit authority is established."},
+    {"id":"V214","target_property":"environment","target_found":true,"predicted":"N","strict_label":"N","correct":true,"reason":"The repository gives hardening guidance for custom-property-based trust policies, but does not establish a concrete deployed property and edit authority."}
+  ]
+}
