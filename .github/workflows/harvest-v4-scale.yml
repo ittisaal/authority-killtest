@@ -1,0 +1,118 @@
+name: Frozen V4 on harvest union
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/harvest-v4-scale.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v4-scale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify frozen V4 implementation
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          freeze = json.load(open('benchmark/discovery/FREEZE_V4.json'))
+          for path, expected in freeze['files'].items():
+              actual = subprocess.check_output(['git', 'hash-object', path], text=True).strip()
+              if actual != expected:
+                  raise SystemExit(f'freeze mismatch: {path}: {actual} != {expected}')
+          print(f"frozen V4 files verified: {len(freeze['files'])}")
+          PY
+
+      - name: Restore frozen Harvest-v2 union
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p benchmark/harvest/frozen-v2
+          curl -fL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/10322801276/zip" \
+            -o /tmp/harvest-v2.zip
+          echo "16c3b1108d4020ccb343c17e15cf79595b5ee12e2752c0afbcbf527117c55724  /tmp/harvest-v2.zip" | sha256sum -c -
+          unzip -q /tmp/harvest-v2.zip -d benchmark/harvest/frozen-v2
+          test -f benchmark/harvest/frozen-v2/candidate-repositories-v1-v2-union.json
+
+      - name: Verify union and build target-blind scale input
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          src=Path('benchmark/harvest/frozen-v2/candidate-repositories-v1-v2-union.json')
+          obj=json.load(open(src))
+          canonical=json.dumps(obj,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
+          actual=hashlib.sha256(canonical).hexdigest()
+          expected='7e2165033973435aee0bd50a78839c2476d2dffd3d3f89a562171f0a380ba891'
+          if actual != expected:
+              raise SystemExit(f'union hash mismatch: {actual} != {expected}')
+          cases=[]
+          for i,row in enumerate(obj['candidates'],1):
+              cases.append({
+                  'id': f'HV4-{i:04d}',
+                  'repository': row['repository'],
+                  'commit': row['commit'],
+              })
+          out={
+              'schema_version': 1,
+              'experiment': 'frozen-v4-on-harvest-v1-v2-union',
+              'scope_note': 'Frozen V4 receives only case id, repository, and exact commit from the frozen Harvest-v1/v2 candidate union. Candidate outputs are not prevalence estimates.',
+              'source_union_canonical_sha256': expected,
+              'cases': cases,
+          }
+          Path('benchmark/harvest/v4-scale-input.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(f"scale cases: {len(cases)}")
+          PY
+
+      - name: Run frozen V4 unit tests
+        run: python benchmark/discovery/test_discover_repository_v4.py
+
+      - name: Run frozen V4 on the frozen harvest union
+        run: |
+          python benchmark/discovery/run_blind_v4.py \
+            benchmark/harvest/v4-scale-input.json \
+            --workers 4 \
+            --output benchmark/harvest/v4-scale-raw-results.json
+
+      - name: Write compact scale summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('benchmark/harvest/v4-scale-raw-results.json')
+          if not p.exists():
+              print('raw result missing')
+              raise SystemExit(0)
+          data=json.load(open(p))
+          summary=dict(data['summary'])
+          summary['source_union_canonical_sha256']='7e2165033973435aee0bd50a78839c2476d2dffd3d3f89a562171f0a380ba891'
+          summary['claim_boundary']='Candidate-search output only; automatic U/S/N candidate labels are not ground-truth prevalence.'
+          Path('benchmark/harvest/v4-scale-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(summary,indent=2,sort_keys=True))
+          PY
+
+      - name: Upload frozen V4 scale results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-v4-harvest-union-results
+          path: |
+            benchmark/harvest/v4-scale-input.json
+            benchmark/harvest/v4-scale-raw-results.json
+            benchmark/harvest/v4-scale-summary.json
