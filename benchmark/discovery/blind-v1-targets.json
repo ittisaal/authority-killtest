@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v1",
+  "scope_note": "Predeclared target properties for post-run scoring. This manifest is withheld from the discovery workflow until the raw run is complete. No expected U/S/N labels are assigned here.",
+  "cases": [
+    {"id":"B01","repository":"generoi/github-actions","commit":"60373e226821de426693663bfac7fb490c1cac87","target_property":"maintenance","selection_family":"workflow-gate"},
+    {"id":"B02","repository":"anubissbe/supply-chain-guard-github","commit":"ab7fa500446dccd375ca93684b3abcd9bc9e95c4","target_property":"security_level","selection_family":"workflow-input"},
+    {"id":"B03","repository":"Team-Immersive-Intelligence/ImmersiveIntelligence","commit":"1b6883883f85a3c0b1565cbad8bd400913822fdc","target_property":"project_pretty_name","selection_family":"workflow-metadata"},
+    {"id":"B04","repository":"Immersive-Geology-Team/Immersive-Geology","commit":"73a897135391f55abf829ff86d0bc24344df5379","target_property":"project_pretty_name","selection_family":"workflow-metadata"},
+    {"id":"B05","repository":"kronostechnologies/tax-ca","commit":"83cba0c9e7324255f6e66071f5d15a14bb30fe66","target_property":"ci_slack_channel","selection_family":"workflow-input"},
+    {"id":"B06","repository":"cloudnode-pro/BankAccounts","commit":"76f76fd87aa92542288f8c2d50455e8a5fb18f92","target_property":"modrinth_id","selection_family":"release-input"},
+    {"id":"B07","repository":"equisoft-actions/sdk-workflows","commit":"ab7fd9bb861273e31324ecc94ec68f1053d50178","target_property":"ci_slack_channel","selection_family":"workflow-input"},
+    {"id":"B08","repository":"canine-systems/server-maintenance-mode","commit":"d9ae658c59dd40a833af8c6b32b70b30d2cb9bc4","target_property":"modrinth_id","selection_family":"release-input"},
+    {"id":"B09","repository":"kwacky1-inc/probable-octo-fortnight","commit":"1122f00714bcdad50b19f306e993f99d1513d904","target_property":"fruit","selection_family":"workflow-gate"},
+    {"id":"B10","repository":"rtechthiago/app_sync","commit":"22e1b97ecd84e386163ec91127693c3677e0bf7f","target_property":"VPC","selection_family":"aggregate-property-read"},
+    {"id":"B11","repository":"actions-security-demo/poc-1","commit":"d6458a64bdc3e0bdcdb1463b6e83b94b272f77b0","target_property":"skip-harden-runner","selection_family":"security-tool-input"},
+    {"id":"B12","repository":"alphagov/govuk-infrastructure","commit":"04728f54d6dfa6e33286050762c1f36cd2db56f8","target_property":"team_identifier","selection_family":"property-management"},
+    {"id":"B13","repository":"cloudnode-pro/CloudnodeMSG","commit":"4e0fa180650bd3efffc61eb7134acdeaf88672b0","target_property":"modrinth_id","selection_family":"release-input"},
+    {"id":"B14","repository":"cloudnode-pro/EnchantBookPlus","commit":"512e5cfef5e4e756a311cbb72d0fb02b3fab5e42","target_property":"modrinth_id","selection_family":"release-input"},
+    {"id":"B15","repository":"kronostechnologies/standards","commit":"06db23eac08b954df867c2d8f7ecbe0949d6e461","target_property":"ci_slack_channel","selection_family":"workflow-input"},
+    {"id":"B16","repository":"kronostechnologies/design-elements","commit":"f1eb53eeff06f0f72cd94dcb9698b1b6af3dd491","target_property":"ci_slack_channel","selection_family":"workflow-input"},
+    {"id":"B17","repository":"equisoft-actions/php-workflows","commit":"22503eaae2a336475b7d33c98eaa5bbe3f43dadc","target_property":"ci_slack_channel","selection_family":"workflow-input"},
+    {"id":"B18","repository":"equisoft-actions/js-workflows","commit":"3297452a45841d47ceb2a4e6b5c6e0b2b82b0100","target_property":"ci_slack_channel","selection_family":"workflow-input"},
+    {"id":"B19","repository":"equisoft-actions/kotlin-workflows","commit":"bf3c0a1bc1345dcfcbfddfca44d609a830b48782","target_property":"ci_slack_channel","selection_family":"workflow-input"},
+    {"id":"B20","repository":"Team-Immersive-Intelligence/gasm","commit":"8a867b32c20d4eedb6b7ad15cb7fc224efa6ab74","target_property":"project_pretty_name","selection_family":"workflow-metadata"},
+    {"id":"B21","repository":"SamLee-IBM/SolutionsHubApp","commit":"9eeef7b2e75aadd4cf595db029424d1cbc9d3dcc","target_property":"Technology-Pillar","selection_family":"property-management"}
+  ]
+}
