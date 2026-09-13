@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v3",
+  "raw_run": {
+    "run_id": 34756556534,
+    "job_id": 103721805120,
+    "artifact_id": 10317842843,
+    "artifact_name": "blind-discovery-v3-raw-results",
+    "artifact_sha256": "85575f52d1b945e6bb5ca3c61bc6359c66e616ce555f3a00ebe1b748aebde1c0",
+    "frozen_head": "9eb454450c481ee5e683419063ed0db5f2f84921"
+  },
+  "target_commitment_sha256": "ddeeab167aa66258ddca375ea17c6c1035c82024da64f0bb9a4877fad124c961",
+  "target_commitment_verified": true,
+  "scoring_rule": "A target is found only when a discovered property canonically matches the predeclared target. Strict U/S/N adjudication uses public evidence at the frozen snapshot. A miss is not counted as a semantic prediction.",
+  "summary": {
+    "cases": 14,
+    "distinct_owners": 14,
+    "execution_errors": 0,
+    "targets_found": 7,
+    "target_discovery_rate": 0.5,
+    "strict_manual_labels": {"U": 0, "S": 7, "N": 7},
+    "found_target_predictions": {"U": 0, "S": 4, "N": 3},
+    "semantic_correct_given_target_found": 4,
+    "semantic_total_given_target_found": 7,
+    "semantic_accuracy_given_target_found": 0.5714285714285714,
+    "end_to_end_correct": 4,
+    "end_to_end_total": 14,
+    "end_to_end_accuracy": 0.2857142857142857,
+    "false_U": 0,
+    "false_S": 1
+  },
+  "cases": [
+    {"id":"V301","repository":"anubissbe/supply-chain-guard-github","commit":"ab7fa500446dccd375ca93684b3abcd9bc9e95c4","target_property":"security_level","target_found":true,"predicted":"N","strict_label":"N","correct":true,"reason":"security_level affects security/deployment policy, but repository-level write authority is not publicly established."},
+    {"id":"V302","repository":"Team-Immersive-Intelligence/ImmersiveIntelligence","commit":"1b6883883f85a3c0b1565cbad8bd400913822fdc","target_property":"project_pretty_name","target_found":true,"predicted":"S","strict_label":"S","correct":true,"reason":"project_pretty_name is used for notification/display text; no protection or authorization edge is shown."},
+    {"id":"V303","repository":"Immersive-Geology-Team/Immersive-Geology","commit":"73a897135391f55abf829ff86d0bc24344df5379","target_property":"project_pretty_name","target_found":true,"predicted":"S","strict_label":"S","correct":true,"reason":"project_pretty_name is used for notification/display text; no protection or authorization edge is shown."},
+    {"id":"V304","repository":"kronostechnologies/tax-ca","commit":"83cba0c9e7324255f6e66071f5d15a14bb30fe66","target_property":"ci_slack_channel","target_found":true,"predicted":"S","strict_label":"S","correct":true,"reason":"ci_slack_channel routes workflow notifications; no protection or authorization edge is shown."},
+    {"id":"V305","repository":"cloudnode-pro/BankAccounts","commit":"76f76fd87aa92542288f8c2d50455e8a5fb18f92","target_property":"modrinth_id","target_found":true,"predicted":"S","strict_label":"N","correct":false,"reason":"modrinth_id selects the external project receiving a release through a token; public evidence does not establish property edit authority or the token's reachable project scope."},
+    {"id":"V306","repository":"kwacky1-inc/probable-octo-fortnight","commit":"1122f00714bcdad50b19f306e993f99d1513d904","target_property":"fruit","target_found":true,"predicted":"N","strict_label":"S","correct":false,"reason":"fruit only chooses between example echo steps in a read-only starter workflow; no privilege/protection delta exists."},
+    {"id":"V307","repository":"a8cteam51/team51-project-scaffold","commit":"e7d189764732d522c31a017637b9d4c0d3b859e3","target_property":"human-title","target_found":false,"predicted":null,"strict_label":"S","correct":false,"reason":"human-title is presentation/template metadata; no protection or authorization edge is shown."},
+    {"id":"V308","repository":"equisoft-actions/php-workflows","commit":"22503eaae2a336475b7d33c98eaa5bbe3f43dadc","target_property":"ci_slack_channel","target_found":true,"predicted":"N","strict_label":"S","correct":false,"reason":"ci_slack_channel is notification-routing metadata; no protection or authorization edge is shown."},
+    {"id":"V309","repository":"gin0115/phpstan-workshop","commit":"59b751ac950c8be1bbef6a973f6b0307eff32aa2","target_property":"human-title","target_found":false,"predicted":null,"strict_label":"S","correct":false,"reason":"human-title is presentation/template metadata; no protection or authorization edge is shown."},
+    {"id":"V310","repository":"Mandoa-Labs/BM-25-Search","commit":"ae883e478ebb205ee71141cb792cb0950f6e38d6","target_property":"environment_tier","target_found":false,"predicted":null,"strict_label":"N","correct":false,"reason":"environment_tier appears in mirrored/reference documentation; no concrete deployment and authority chain is established."},
+    {"id":"V311","repository":"brunosilvaaircompany/copilot-knowledge-base","commit":"30aa6683131754321451271392787b3d2ade9e04","target_property":"environment_tier","target_found":false,"predicted":null,"strict_label":"N","correct":false,"reason":"environment_tier appears in copied/reference documentation; no concrete deployment and authority chain is established."},
+    {"id":"V312","repository":"CallmeShini/docsrag-observatory","commit":"7232d1fe1058c2acdf1aed71c133e18b86a447a4","target_property":"environment_tier","target_found":false,"predicted":null,"strict_label":"N","correct":false,"reason":"environment_tier appears in documentation data; no concrete deployment and authority chain is established."},
+    {"id":"V313","repository":"joeblackwaslike/agent-skills","commit":"a2b750da9187c4682addcd339e019e3f2188ca49","target_property":"environment_tier","target_found":false,"predicted":null,"strict_label":"N","correct":false,"reason":"environment_tier is documented as an OIDC/ABAC mechanism, not a concrete observable deployment with edit authority."},
+    {"id":"V314","repository":"borahanmirzaii/github-mastery-notebook","commit":"719a35fe6e084f3dd25dc915289b400ebc879fb8","target_property":"environment_tier","target_found":false,"predicted":null,"strict_label":"N","correct":false,"reason":"environment_tier is documented as an OIDC/ABAC mechanism, not a concrete observable deployment with edit authority."}
+  ]
+}
