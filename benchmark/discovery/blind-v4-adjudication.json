@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v4",
+  "raw_run": {
+    "run_id": 34764564755,
+    "job_id": 103743120129,
+    "artifact_id": 10320746444,
+    "artifact_name": "blind-discovery-v4-raw-results",
+    "artifact_sha256": "60c09addb5460610a6524fae0f9a6980fa3bfd8e680fb4a58b7e4aec70edf21b",
+    "frozen_head": "399652d21071ba603dea6b7fd22ea2d0ec057fa9"
+  },
+  "target_commitment_sha256": "8caca968ab7bde612fa2184c962ac5ef70c3b6d116d418d9ec4f0f3922379c57",
+  "target_commitment_verified": true,
+  "scoring_rule": "A target is found only when a discovered property canonically matches the predeclared target. Strict U/S/N adjudication uses public evidence at the frozen snapshot. A miss is not counted as a semantic prediction.",
+  "summary": {
+    "cases": 14,
+    "distinct_owners": 14,
+    "execution_errors": 0,
+    "targets_found": 14,
+    "target_discovery_rate": 1.0,
+    "strict_manual_labels": {
+      "U": 0,
+      "S": 3,
+      "N": 11
+    },
+    "found_target_predictions": {
+      "U": 0,
+      "S": 2,
+      "N": 12
+    },
+    "semantic_correct_given_target_found": 13,
+    "semantic_total_given_target_found": 14,
+    "semantic_accuracy_given_target_found": 0.9285714285714286,
+    "end_to_end_correct": 13,
+    "end_to_end_total": 14,
+    "end_to_end_accuracy": 0.9285714285714286,
+    "false_U": 0,
+    "false_S": 0,
+    "false_N": 1
+  },
+  "cases": [
+    {
+      "id": "V401",
+      "repository": "SpiceLabsHQ/.github",
+      "commit": "cc0267886b6061eeaba22d303a22cdd4c1a2215c",
+      "target_property": "automerge-humans",
+      "target_found": true,
+      "predicted": "S",
+      "strict_label": "S",
+      "correct": true,
+      "reason": "automerge-humans is explicitly repository-admin editable, but it only arms native auto-merge; the organization branch rule still requires an approving review and last-push approval, so the observed property change does not remove the independent merge guard."
+    },
+    {
+      "id": "V402",
+      "repository": "hyperpolymath/palimpsest-license",
+      "commit": "215f2bc9dea38ed26da578ea7e5cd5fde531a519",
+      "target_property": "pmpl_require_signatures",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "pmpl_require_signatures controls whether provenance verification runs, but repository-level authority to change the property is not established in the frozen public snapshot."
+    },
+    {
+      "id": "V403",
+      "repository": "goharbor/harbor",
+      "commit": "fb6f06b6cc5ae62fd5bb9de554e442f0109f1d52",
+      "target_property": "SKIP_PROXY_CACHE",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "SKIP_PROXY_CACHE changes whether the proxy-cache CI path runs, but repository-level property edit authority is not established in the frozen public snapshot."
+    },
+    {
+      "id": "V404",
+      "repository": "pypi/warehouse",
+      "commit": "5748d68e3bfc64f2ae732ab98e4b8c7d1c004ecb",
+      "target_property": "env_tier",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "env_tier appears only as a repo_property_* claim in claim-accounting unit tests; no concrete deployed consumer plus repository-edit-authority chain is established."
+    },
+    {
+      "id": "V405",
+      "repository": "platformdevorg/aws-oidc-auth-custom-github-property",
+      "commit": "0dc7012219c65b88a4b8aca5dded47afaddc1350",
+      "target_property": "team_id",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "team_id is used in an OIDC subject/IAM trust-policy example, but the repository does not establish who can change the underlying custom-property value."
+    },
+    {
+      "id": "V406",
+      "repository": "ktdreyer/quay-oidc-demo",
+      "commit": "c1baa73e6ec2089ec2d0c1d5bdf6a54a46890ad0",
+      "target_property": "team",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "team appears in a reference/proposal discussion of per-claim federation matching; no concrete deployed custom-property consumer and edit-authority chain is established."
+    },
+    {
+      "id": "V407",
+      "repository": "seaworld008/Commonly-used-high-value-skills",
+      "commit": "3fc422be9b7d50672eaceb5cebd2024af40c5ff8",
+      "target_property": "environment",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "environment is documented as an OIDC/ABAC trust-policy mechanism, not as a concrete observable deployment with repository-level edit authority."
+    },
+    {
+      "id": "V408",
+      "repository": "SamuelChien/mega-skills-collection",
+      "commit": "c2b1fdccc779e99ac814e55fb69ca8d71215dd0f",
+      "target_property": "environment",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "environment is documented as an OIDC/ABAC trust-policy mechanism, not as a concrete observable deployment with repository-level edit authority."
+    },
+    {
+      "id": "V409",
+      "repository": "eparon/oidc-secure-api-github-actions",
+      "commit": "3c13c59369eac04582ac98a6fd1c52d957e710b2",
+      "target_property": "workspace_id",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "workspace_id appears in a local mock-token configuration; the snapshot does not establish a concrete deployed downstream decision and repository-level property authority."
+    },
+    {
+      "id": "V410",
+      "repository": "nathanfaucett/agents",
+      "commit": "2548387b77fd947ca98858b0c51fc3d71080fa4c",
+      "target_property": "env_tier",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "env_tier appears in reference documentation for OIDC custom-property claims; no concrete deployment and edit-authority chain is established."
+    },
+    {
+      "id": "V411",
+      "repository": "Eyal-R-Webiks/Abstractive_QA",
+      "commit": "299f305ff6ef18505587fc0760efc147769a731d",
+      "target_property": "env_tier",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "env_tier appears in copied/reference GitHub OIDC documentation; no concrete deployment and edit-authority chain is established."
+    },
+    {
+      "id": "V412",
+      "repository": "go-go-golems/glazed",
+      "commit": "a7fdfda5e3c6dc5567003d6c695620542fd3936c",
+      "target_property": "env_tier",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "N",
+      "correct": true,
+      "reason": "env_tier appears in captured/reference GitHub OIDC documentation; no concrete deployment and edit-authority chain is established."
+    },
+    {
+      "id": "V413",
+      "repository": "PyGithub/PyGithub",
+      "commit": "9152817c2d437282d46e7822e825dcf7e3a3e947",
+      "target_property": "property_1",
+      "target_found": true,
+      "predicted": "N",
+      "strict_label": "S",
+      "correct": false,
+      "reason": "the captured GitHub organization schema for property_1 explicitly reports values_editable_by=org_actors, so repository-level actors cannot change the value."
+    },
+    {
+      "id": "V414",
+      "repository": "unified-systems-com/tap-plugin-github-core",
+      "commit": "a163c29c028c0e2632ac31ccb1f3df1f3738cab6",
+      "target_property": "lifecycle",
+      "target_found": true,
+      "predicted": "S",
+      "strict_label": "S",
+      "correct": true,
+      "reason": "the captured unified-systems-com organization schema for lifecycle explicitly reports values_editable_by=org_actors, so repository-level actors cannot change the value."
+    }
+  ]
+}
