@@ -1,0 +1,91 @@
+version: 1
+threat_actor: repository_actor_with_property_write_authority
+
+scenarios:
+  - id: U1-gcp-oidc
+    class: unsafe
+    status: complete
+    mutation: security_tier restricted -> open
+    path:
+      - repository actor changes custom property
+      - GitHub emits repo_property_security_tier in OIDC token
+      - GCP WIF maps the claim
+      - IAM condition grants roles/browser
+      - workload gains project-read privilege
+
+  - id: U2-jfrog-oidc
+    class: unsafe
+    status: complete
+    mutation: security_tier restricted -> open
+    path:
+      - repository actor changes custom property
+      - GitHub emits repo_property_security_tier in OIDC token
+      - JFrog OIDC dynamic group mapping consumes the claim
+      - group permission grants repository read
+      - workload gains Artifactory repository-read privilege
+
+  - id: U3-required-security-gate-bypass
+    class: unsafe
+    status: prepared-needs-org-admin
+    property:
+      name: security_scan_policy
+      type: single_select
+      allowed_values: [enforced, bypass]
+      values_editable_by: org_and_repo_actors
+    path:
+      - repository actor changes security_scan_policy enforced -> bypass
+      - required GitHub Actions security-gate reads repository property
+      - bypass value causes gate to report success without inspecting fixture
+      - branch ruleset accepts required check
+      - protection is lost
+    manual_prerequisites:
+      - create the property schema above in the ittisaal organization
+      - set authority-killtest value to enforced initially
+      - require status check security-gate on main via an organization or repository ruleset
+
+  - id: U4-ruleset-selection-bypass
+    class: unsafe
+    status: designed-needs-org-admin
+    property:
+      name: branch_protection_profile
+      type: single_select
+      allowed_values: [protected, excluded]
+      values_editable_by: org_and_repo_actors
+    path:
+      - organization ruleset targets repositories where branch_protection_profile=protected
+      - ruleset requires pull request and approving review
+      - repository actor changes property protected -> excluded
+      - repository no longer matches ruleset
+      - actor gains direct-push/merge behavior previously denied
+    manual_prerequisites:
+      - create the property schema above
+      - create organization ruleset conditioned on branch_protection_profile=protected
+      - set authority-killtest to protected initially
+
+  - id: S1-org-only-selector
+    class: safe
+    status: designed-needs-org-admin
+    property:
+      name: org_only_security_profile
+      type: single_select
+      allowed_values: [restricted, open]
+      values_editable_by: org_actors
+    reason_safe: repository actor cannot perform the metadata mutation required by the path
+
+  - id: S2-fixed-guard
+    class: safe
+    status: designed
+    mutation: repository actor may set a mutable selector to permissive
+    fixed_guard: downstream authorization additionally requires an actor identity not controlled by the repository actor
+    reason_safe: mutable metadata alone is insufficient to satisfy the authorization predicate
+
+  - id: S3-value-domain-block
+    class: safe
+    status: designed-needs-org-admin
+    property:
+      name: constrained_security_tier
+      type: single_select
+      allowed_values: [restricted, staging]
+      values_editable_by: org_and_repo_actors
+    downstream_policy_requires: production
+    reason_safe: actor can mutate the property but cannot select the value required for privilege
