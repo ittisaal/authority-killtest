@@ -1,0 +1,45 @@
+name: Public corpus raw-evidence evaluation
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/public-corpus/**'
+      - '.github/workflows/public-corpus-raw-eval.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  raw-evidence-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python -m pytest -q benchmark/public-corpus/test_extract_evidence.py
+      - name: Extract from exact frozen evidence files
+        run: |
+          python benchmark/public-corpus/extract_evidence.py \
+            benchmark/public-corpus/corpus.json \
+            --output benchmark/public-corpus/raw-extraction-results.json
+      - name: Show evaluation summary
+        run: |
+          python - <<'PY'
+          import json
+          p='benchmark/public-corpus/raw-extraction-results.json'
+          data=json.load(open(p))
+          print(json.dumps(data['summary'], indent=2, sort_keys=True))
+          print('\nCase results:')
+          for c in data['cases']:
+              print(c['id'], c['label'], c['extracted'], 'fetch_errors=', len(c['fetch_errors']))
+          if any(c['fetch_errors'] for c in data['cases']):
+              raise SystemExit('one or more frozen evidence files could not be fetched')
+          PY
+      - name: Upload raw extraction result
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-extraction-results
+          path: benchmark/public-corpus/raw-extraction-results.json
