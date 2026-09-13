@@ -27,21 +27,37 @@ jobs:
           python benchmark/public-corpus/decide_extraction.py \
             benchmark/public-corpus/corpus.json \
             --output benchmark/public-corpus/raw-extraction-results.json
+          python benchmark/public-corpus/decide_extraction.py \
+            benchmark/public-corpus/deep-dive-additions.json \
+            --output benchmark/public-corpus/deep-dive-addition-results.json
       - name: Show evaluation summary
         run: |
           python - <<'PY'
           import json
-          p='benchmark/public-corpus/raw-extraction-results.json'
-          data=json.load(open(p))
-          print(json.dumps(data['summary'], indent=2, sort_keys=True))
-          print('\nCase results:')
-          for c in data['cases']:
-              print(c['id'], c['label'], c['extracted'], 'fetch_errors=', len(c['fetch_errors']))
-          if any(c['fetch_errors'] for c in data['cases']):
-              raise SystemExit('one or more frozen evidence files could not be fetched')
+          paths = [
+              'benchmark/public-corpus/raw-extraction-results.json',
+              'benchmark/public-corpus/deep-dive-addition-results.json',
+          ]
+          total = 0
+          matches = 0
+          for p in paths:
+              data=json.load(open(p))
+              print('\n', p)
+              print(json.dumps(data['summary'], indent=2, sort_keys=True))
+              for c in data['cases']:
+                  print(c['id'], c['label'], c['extracted'], 'fetch_errors=', len(c['fetch_errors']))
+              if any(c['fetch_errors'] for c in data['cases']):
+                  raise SystemExit('one or more frozen evidence files could not be fetched')
+              total += data['summary']['raw_evidence_label_total']
+              matches += data['summary']['raw_evidence_label_matches']
+          print(f'combined frozen-evidence regression: {matches}/{total}')
+          if matches != total:
+              raise SystemExit('frozen-evidence regression mismatch')
           PY
-      - name: Upload raw extraction result
+      - name: Upload raw extraction results
         uses: actions/upload-artifact@v4
         with:
           name: raw-extraction-results
-          path: benchmark/public-corpus/raw-extraction-results.json
+          path: |
+            benchmark/public-corpus/raw-extraction-results.json
+            benchmark/public-corpus/deep-dive-addition-results.json
