@@ -16,7 +16,7 @@ Create a ruleset for `main` that requires the status check `security-gate`.
 
 ### Trial
 
-1. Use a PR whose head contains `benchmark/attack-fixture/known-vulnerability.txt`.
+1. Use a PR whose head contains `benchmark/fixtures/known-unsafe.txt`.
 2. With `security_scan_policy=enforced`, run/re-run `security-gate` and preserve the run URL. Expected: `BLOCKED` / failed check.
 3. Change only `security_scan_policy` to `bypass` using the repository actor account.
 4. Re-run the same workflow for the same PR/commit and preserve the run URL. Expected: `BYPASSED` / successful required check.
