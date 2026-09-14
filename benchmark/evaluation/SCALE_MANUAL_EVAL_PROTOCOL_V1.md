@@ -20,9 +20,11 @@ It is **not** a random sample of GitHub, and no percentage from the 699 cases ma
 - Aggregate artifact digest: `sha256:dc3e49643218db3fcce5d247d671092f8dcb7958b5f719c9cd9799e795d79b45`.
 - Frozen analyzer implementation: `benchmark/discovery/FREEZE_V4.json`.
 - Manual-evaluation selection: `benchmark/evaluation/scale-manual-eval-v1-selection.json`.
-- Selection SHA-256 (UTF-8 JSON file): `baf261a6ce45ffbb5bb9d55a9afea8d9dd2fd6b8f07bf5a24585c6f7b843cdc3`.
+- Selection SHA-256 (UTF-8 JSON file): `e4203ee3dc7fb0ec0769db7143f0f6049ac89bd2789eaa9e6b307ce30fce82db`.
 
 No V4 semantic rule may be changed after seeing these scale outputs for this evaluation.
+
+The selection file intentionally stores case IDs rather than duplicated commit metadata. Repository and commit are resolved from the frozen recovered artifact. A pre-label clerical version briefly duplicated incorrect commit strings; it was replaced before any manual labels were recorded, without changing a single selected case ID, stratum, or sampling rule.
 
 ## Unit of evaluation
 
@@ -100,21 +102,22 @@ Manual review contains 50 cases:
 
 Residual sampling uses prime seed `101` solely as a reproducibility convention.
 
-The selection was fixed before recording manual labels.
+The case-ID selection was fixed before recording manual labels.
 
 ## Adjudication procedure
 
 For each selected case:
 
-1. inspect the frozen repository commit;
-2. inspect the analyzer evidence paths and discovery signals;
-3. identify whether the apparent property is a real GitHub repository custom property/configuration variable or unrelated vocabulary;
-4. determine bounded actor mutation authority from public evidence;
-5. identify the concrete consumer and whether it affects authorization/protection;
-6. check independent guards and reachable value/domain restrictions;
-7. assign strict U/S/N;
-8. separately record U* only if the frozen narrative threshold is satisfied;
-9. record a short rationale and the decisive evidence class.
+1. resolve the repository and commit from the frozen recovered artifact;
+2. inspect the frozen repository commit;
+3. inspect the analyzer evidence paths and discovery signals;
+4. identify whether the apparent property is a real GitHub repository custom property/configuration variable or unrelated vocabulary;
+5. determine bounded actor mutation authority from public evidence;
+6. identify the concrete consumer and whether it affects authorization/protection;
+7. check independent guards and reachable value/domain restrictions;
+8. assign strict U/S/N;
+9. separately record U* only if the frozen narrative threshold is satisfied;
+10. record a short rationale and the decisive evidence class.
 
 Generated/test/reference material is not promoted to a deployed case without separate deployment evidence.
 
@@ -123,7 +126,7 @@ Generated/test/reference material is not promoted to a deployed case without sep
 For this 50-case **manual audit sample**:
 
 - case-level confusion matrix;
-- U precision/recall only if the manual sample contains manual-U cases;
+- U precision/recall only if mathematically defined by the sample;
 - S precision/recall only within this selected audit sample;
 - N agreement within this selected audit sample;
 - overall agreement on the selected audit sample;
@@ -137,7 +140,7 @@ For the **full 699-case harvest**:
 - candidate count and raw automatic label count;
 - number of repositories/owners;
 - number of automatically flagged cases;
-- number of manually established U/U* found during the predeclared high-signal/public-case review.
+- number of manually established U/U* found during the high-signal/public-case review.
 
 Do **not** report full-harvest accuracy or prevalence unless every case has manual ground truth under a separately frozen protocol.
 
@@ -145,7 +148,7 @@ Do **not** report full-harvest accuracy or prevalence unless every case has manu
 
 Infrastructure/fetch/analyzer errors remain a separate outcome and are never mapped to N.
 
-The recovered aggregate currently has 699/699 case IDs present, 698 successful V4 cases, and one remaining error case (`HV4-0154`). That case may be manually characterized for missed-discovery risk, but it is excluded from automatic-classification metrics.
+The recovered aggregate has 699/699 case IDs present, 698 successful V4 cases, and one remaining automatic error case (`HV4-0154`). That case may be manually characterized for missed-discovery risk, but it is excluded from automatic-classification metrics.
 
 ## Known harvest recall limitation
 
