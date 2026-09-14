@@ -1,0 +1,480 @@
+{
+  "frozen_before_manual_labels": true,
+  "name": "scale-manual-eval-v1",
+  "sampling": {
+    "all_auto_non_N_case_ids": [
+      "HV4-0016",
+      "HV4-0019",
+      "HV4-0147",
+      "HV4-0175",
+      "HV4-0191",
+      "HV4-0237",
+      "HV4-0245",
+      "HV4-0282",
+      "HV4-0294",
+      "HV4-0325",
+      "HV4-0348",
+      "HV4-0404",
+      "HV4-0445",
+      "HV4-0454",
+      "HV4-0514",
+      "HV4-0515",
+      "HV4-0523",
+      "HV4-0623",
+      "HV4-0687"
+    ],
+    "case_level_aggregation": "U if any candidate U; else S if any candidate S; else N.",
+    "forced_boundary_case_ids": [
+      "HV4-0233"
+    ],
+    "random_seed": 101,
+    "seed_note": "Prime seed used only as a reproducibility convention; it has no statistical advantage.",
+    "stratified_residual_N": {
+      "consumer_only_N": [
+        "HV4-0205",
+        "HV4-0227",
+        "HV4-0553",
+        "HV4-0181",
+        "HV4-0289",
+        "HV4-0439",
+        "HV4-0093",
+        "HV4-0168",
+        "HV4-0124",
+        "HV4-0109"
+      ],
+      "high_signal_N": [
+        "HV4-0584",
+        "HV4-0151",
+        "HV4-0545",
+        "HV4-0339",
+        "HV4-0458",
+        "HV4-0044",
+        "HV4-0669",
+        "HV4-0513",
+        "HV4-0163",
+        "HV4-0605"
+      ],
+      "residual_noise_N": [
+        "HV4-0078",
+        "HV4-0363",
+        "HV4-0601",
+        "HV4-0426",
+        "HV4-0310",
+        "HV4-0166",
+        "HV4-0381",
+        "HV4-0613",
+        "HV4-0271",
+        "HV4-0203"
+      ]
+    }
+  },
+  "schema_version": 1,
+  "selected_cases": [
+    {
+      "auto_case_label": "S",
+      "candidate_count": 12,
+      "commit": "5eec98ff5e0677201fcad7d2b31f8b8454aa3880",
+      "id": "HV4-0016",
+      "repository": "aidotse/PASEOS",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "U",
+      "candidate_count": 42,
+      "commit": "1fc40194dce09b4f0354ef95bc2de867e7da0e53",
+      "id": "HV4-0019",
+      "repository": "alchemy-run/distilled",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 3,
+      "commit": "f0cfcc19154ff2827cfe45ac17a3e759b75492df",
+      "id": "HV4-0044",
+      "repository": "apache/fluss",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "7a7ff2fb06b23d4c7398ceca5fed78be9ca3dc43",
+      "id": "HV4-0078",
+      "repository": "Azure/azure-linux-extensions",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "7d9353625e3545ec30db93f81016ca38d05e2283",
+      "id": "HV4-0093",
+      "repository": "bonitasoft/bonita-engine",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "a53870998cb627dc8224f44522ed9a54e1eb4604",
+      "id": "HV4-0109",
+      "repository": "cheahjs/palworld-save-tools",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 5,
+      "commit": "31d805a8d08f843c9f335405c99f8a752df4e83a",
+      "id": "HV4-0124",
+      "repository": "cibseven/cibseven",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 41,
+      "commit": "75919141f4496d242cbbcc63a1c5f1e14df31ba4",
+      "id": "HV4-0147",
+      "repository": "crossplane-contrib/provider-upjet-github",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "f359074f63717a61e25c18540ab7581520ccad2a",
+      "id": "HV4-0151",
+      "repository": "dandelion/dandelion",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 2,
+      "commit": "71750c921398631d8d7e199ea0934886823e7c14",
+      "id": "HV4-0163",
+      "repository": "deegree/deegree3",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "02c724733e1d4b81fb5feeb17ab768a896c0fd53",
+      "id": "HV4-0166",
+      "repository": "demisto/content",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 3,
+      "commit": "a9ee75c22f4d79448b4551f16a86bd662cd4c29a",
+      "id": "HV4-0168",
+      "repository": "devlooped/DependencyInjection",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 14,
+      "commit": "0f32772321cad60b7021d70a890486f01cb84dd4",
+      "id": "HV4-0175",
+      "repository": "dfki-ric/phobos",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 3,
+      "commit": "52de3745b8c903a36ba6c299a7e9a90dde3e2396",
+      "id": "HV4-0181",
+      "repository": "dotnetconfig/dotnet-config",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "U",
+      "candidate_count": 26,
+      "commit": "491476d9c99e73e396d5988e0ac09adfb60a9531",
+      "id": "HV4-0191",
+      "repository": "eclipse-csi/otterdog",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "915e489f7372aed0b0154ad199fb0a3071d017fa",
+      "id": "HV4-0203",
+      "repository": "fabio914/reality-mixer-js",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 2,
+      "commit": "a80a010b0aaa8c2796c769fba619ac3f7590f334",
+      "id": "HV4-0205",
+      "repository": "facebook/facebook-python-business-sdk",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "56f7ca4229fa5fe6a18c4f323c5ef51e3ef82224",
+      "id": "HV4-0227",
+      "repository": "geotools/geotools",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 7,
+      "commit": "63229802a0c5faea7d2dd013fb2f51713ec67e57",
+      "id": "HV4-0233",
+      "repository": "github/actions-migrations-via-copilot",
+      "selection_reason": "forced_actor_boundary"
+    },
+    {
+      "auto_case_label": "U",
+      "candidate_count": 31,
+      "commit": "6adee49691813493b98cbe9cc77d4d933fbb53fd",
+      "id": "HV4-0237",
+      "repository": "github/github-mcp-server",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 30,
+      "commit": "6c21f5dddb9a7877393787d57d6deab17b96736f",
+      "id": "HV4-0245",
+      "repository": "google/go-github",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "47a3bfa23289c0bc4b745ce42a255dca6eeb4c6c",
+      "id": "HV4-0271",
+      "repository": "ibinti/bugvm",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 44,
+      "commit": "378624e4502254f5641548d9b85c30d3593ccffc",
+      "id": "HV4-0282",
+      "repository": "integrations/terraform-provider-github",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "60585780a8d365b49f50d4e2d6db927741148acf",
+      "id": "HV4-0289",
+      "repository": "JacquesLucke/animation_nodes",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 6,
+      "commit": "8d4fab19d0c53c2198b788f6d718caa31f958a87",
+      "id": "HV4-0294",
+      "repository": "jamesscottbrown/pyyed",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "e0ce753098990540953938e27910970760f8d4a0",
+      "id": "HV4-0310",
+      "repository": "joekoolade/JOE",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 20,
+      "commit": "0261f34370d95843b8f5aee6a789a1114d758e86",
+      "id": "HV4-0325",
+      "repository": "kaosat-dev/Blenvy",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 13,
+      "commit": "48929ed27a7ee14635428e9601d7ea761590c24c",
+      "id": "HV4-0339",
+      "repository": "konstruktoid/hardened-images",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 2,
+      "commit": "b7a9508375c6db9ea7e4a41b66dd0b3ca88ae935",
+      "id": "HV4-0348",
+      "repository": "kv0906/pm-kit",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "2ef98df3c6987aab30b4fc36db56f9e3baa01f51",
+      "id": "HV4-0363",
+      "repository": "localemu/localemu",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "b2b18558c061388aac329950ded244893c48fa43",
+      "id": "HV4-0381",
+      "repository": "marytts/marytts",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 14,
+      "commit": "8f063b9e38c06492e61e63d107b3b84100c23329",
+      "id": "HV4-0404",
+      "repository": "mitodl/ol-infrastructure",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "5124b50201800a297a10142e6b8fa170a5c61977",
+      "id": "HV4-0426",
+      "repository": "NeverSight/learn-skills.dev",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "6bbf47dbf7944ef2fb8d30f47c21f64c980b4ee6",
+      "id": "HV4-0439",
+      "repository": "NVIDIA-Omniverse/kit-usd-agents",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 5,
+      "commit": "e5f9de57c2691b3a99b03d01db8647808c3690c5",
+      "id": "HV4-0445",
+      "repository": "octokit/webhooks.net",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 27,
+      "commit": "9861a82ba11082771bdbe40ce944556cda047573",
+      "id": "HV4-0454",
+      "repository": "open-telemetry/opentelemetry-collector-contrib",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 38,
+      "commit": "37041384e9a6dbd4dc94b45561c197b69a88a3c7",
+      "id": "HV4-0458",
+      "repository": "OpenCTI-Platform/connectors",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 20,
+      "commit": "423cba8a8412d61d28a5f30ff979a64cc20ce31a",
+      "id": "HV4-0513",
+      "repository": "port-labs/ocean",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 10,
+      "commit": "c5e08428239f8b0c550176fb408f29a88c36ee7e",
+      "id": "HV4-0514",
+      "repository": "PostHog/posthog",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 10,
+      "commit": "49d618ea9ea4f6157c4ddb9be0aa2b0ae677191c",
+      "id": "HV4-0515",
+      "repository": "PostHog/posthog-foss",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "U",
+      "candidate_count": 31,
+      "commit": "52bef3afd55b95975a3511642a2ce81e0ed9c4ee",
+      "id": "HV4-0523",
+      "repository": "pulumi/pulumi-github",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 5,
+      "commit": "a88c7fc0467f67494adeb74cf68f99742d92d6ed",
+      "id": "HV4-0545",
+      "repository": "release-drafter/release-drafter",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "0461dd2b78e8adf58d0cf1a4f58a0a6512c3757d",
+      "id": "HV4-0553",
+      "repository": "rnadigital/agentcloud",
+      "selection_reason": "consumer_only_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 10,
+      "commit": "0e9373ba9c994799725242953722008043302858",
+      "id": "HV4-0584",
+      "repository": "ship-studio/ship-studio",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 0,
+      "commit": "723ea160509824ead8dc9102cd8af5007d8e5891",
+      "id": "HV4-0601",
+      "repository": "sparrowzoo/sparrow-shell",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 3,
+      "commit": "e1c2eff41fcc042b1b3d4c2ef30421c9532401fe",
+      "id": "HV4-0605",
+      "repository": "spring-projects/spring-webflow",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 1,
+      "commit": "b8c1ed5a582c2df3e88b6796fc535415fb80fa55",
+      "id": "HV4-0613",
+      "repository": "swaggest/go-asyncapi",
+      "selection_reason": "residual_noise_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 1,
+      "commit": "1b6883883f85a3c0b1565cbad8bd400913822fdc",
+      "id": "HV4-0623",
+      "repository": "Team-Immersive-Intelligence/ImmersiveIntelligence",
+      "selection_reason": "all_auto_non_N"
+    },
+    {
+      "auto_case_label": "N",
+      "candidate_count": 2,
+      "commit": "365f5b20a2f1baa54162488bab971d335079848f",
+      "id": "HV4-0669",
+      "repository": "WeatherPal-AI/MCP-handle",
+      "selection_reason": "high_signal_N"
+    },
+    {
+      "auto_case_label": "S",
+      "candidate_count": 30,
+      "commit": "d0ab085ce3b274c8266c768888b1ac4bde36b60d",
+      "id": "HV4-0687",
+      "repository": "yanyongyu/githubkit",
+      "selection_reason": "all_auto_non_N"
+    }
+  ],
+  "source": {
+    "harvest_union_sha256": "7e2165033973435aee0bd50a78839c2476d2dffd3d3f89a562171f0a380ba891",
+    "recovered_artifact_digest": "sha256:dc3e49643218db3fcce5d247d671092f8dcb7958b5f719c9cd9799e795d79b45",
+    "recovered_artifact_id": 10357985407,
+    "v4_freeze": "benchmark/discovery/FREEZE_V4.json"
+  }
+}
