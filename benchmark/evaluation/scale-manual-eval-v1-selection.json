@@ -73,7 +73,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 12,
-      "commit": "5eec98ff5e0677201fcad7d2b31f8b8454aa3880",
+      "commit": "045ffc667e5832df774020ab8aab38758e94bb34",
       "id": "HV4-0016",
       "repository": "aidotse/PASEOS",
       "selection_reason": "all_auto_non_N"
@@ -81,7 +81,7 @@
     {
       "auto_case_label": "U",
       "candidate_count": 42,
-      "commit": "1fc40194dce09b4f0354ef95bc2de867e7da0e53",
+      "commit": "c5b839daa092a6dbbc64e0f156ffeb16efee620f",
       "id": "HV4-0019",
       "repository": "alchemy-run/distilled",
       "selection_reason": "all_auto_non_N"
@@ -89,7 +89,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 3,
-      "commit": "f0cfcc19154ff2827cfe45ac17a3e759b75492df",
+      "commit": "c9c106ada9738a55948717b61f42ad52e6984fa1",
       "id": "HV4-0044",
       "repository": "apache/fluss",
       "selection_reason": "high_signal_N"
@@ -97,7 +97,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "7a7ff2fb06b23d4c7398ceca5fed78be9ca3dc43",
+      "commit": "ea270f900591098f39ca5b5827e104ac67129d88",
       "id": "HV4-0078",
       "repository": "Azure/azure-linux-extensions",
       "selection_reason": "residual_noise_N"
@@ -105,7 +105,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "7d9353625e3545ec30db93f81016ca38d05e2283",
+      "commit": "b6659e7d210119cc3fabac6cb293ac8fd27fc53d",
       "id": "HV4-0093",
       "repository": "bonitasoft/bonita-engine",
       "selection_reason": "consumer_only_N"
@@ -113,7 +113,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "a53870998cb627dc8224f44522ed9a54e1eb4604",
+      "commit": "4578c29a5654b283f5a9e0826cb03307632fd3b3",
       "id": "HV4-0109",
       "repository": "cheahjs/palworld-save-tools",
       "selection_reason": "consumer_only_N"
@@ -121,7 +121,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 5,
-      "commit": "31d805a8d08f843c9f335405c99f8a752df4e83a",
+      "commit": "a75d7b7157527632484a0681f86f6adeab1e137a",
       "id": "HV4-0124",
       "repository": "cibseven/cibseven",
       "selection_reason": "consumer_only_N"
@@ -129,7 +129,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 41,
-      "commit": "75919141f4496d242cbbcc63a1c5f1e14df31ba4",
+      "commit": "a211e095e2fe49c477836acec2ad4a28aa60e030",
       "id": "HV4-0147",
       "repository": "crossplane-contrib/provider-upjet-github",
       "selection_reason": "all_auto_non_N"
@@ -137,7 +137,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "f359074f63717a61e25c18540ab7581520ccad2a",
+      "commit": "323b93012df91c45e4d41050b2e8f685d8aa2e07",
       "id": "HV4-0151",
       "repository": "dandelion/dandelion",
       "selection_reason": "high_signal_N"
@@ -145,7 +145,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 2,
-      "commit": "71750c921398631d8d7e199ea0934886823e7c14",
+      "commit": "47318037129d3200e6530852b18857906d994c39",
       "id": "HV4-0163",
       "repository": "deegree/deegree3",
       "selection_reason": "high_signal_N"
@@ -153,7 +153,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "02c724733e1d4b81fb5feeb17ab768a896c0fd53",
+      "commit": "0724e33540ea709445a1559e160c43b3e9a986cc",
       "id": "HV4-0166",
       "repository": "demisto/content",
       "selection_reason": "residual_noise_N"
@@ -161,7 +161,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 3,
-      "commit": "a9ee75c22f4d79448b4551f16a86bd662cd4c29a",
+      "commit": "aac3eae1357a61e320fb685b0b1971858e61fa12",
       "id": "HV4-0168",
       "repository": "devlooped/DependencyInjection",
       "selection_reason": "consumer_only_N"
@@ -169,7 +169,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 14,
-      "commit": "0f32772321cad60b7021d70a890486f01cb84dd4",
+      "commit": "a613e31e8cbfcd904e002f4e3670e59d90efbe72",
       "id": "HV4-0175",
       "repository": "dfki-ric/phobos",
       "selection_reason": "all_auto_non_N"
@@ -177,7 +177,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 3,
-      "commit": "52de3745b8c903a36ba6c299a7e9a90dde3e2396",
+      "commit": "78af21619b1466955917adc378e99db6ed3a4a01",
       "id": "HV4-0181",
       "repository": "dotnetconfig/dotnet-config",
       "selection_reason": "consumer_only_N"
@@ -185,7 +185,7 @@
     {
       "auto_case_label": "U",
       "candidate_count": 26,
-      "commit": "491476d9c99e73e396d5988e0ac09adfb60a9531",
+      "commit": "4a4b841265661234c51489a6a7a18bc74bcb127b",
       "id": "HV4-0191",
       "repository": "eclipse-csi/otterdog",
       "selection_reason": "all_auto_non_N"
@@ -193,7 +193,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "915e489f7372aed0b0154ad199fb0a3071d017fa",
+      "commit": "b53ef8a509fc4d73810ba44661b7158e3c0c1437",
       "id": "HV4-0203",
       "repository": "fabio914/reality-mixer-js",
       "selection_reason": "residual_noise_N"
@@ -201,7 +201,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 2,
-      "commit": "a80a010b0aaa8c2796c769fba619ac3f7590f334",
+      "commit": "5286888addfe3ba3718db65fbf132bd66de3ddfe",
       "id": "HV4-0205",
       "repository": "facebook/facebook-python-business-sdk",
       "selection_reason": "consumer_only_N"
@@ -209,7 +209,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "56f7ca4229fa5fe6a18c4f323c5ef51e3ef82224",
+      "commit": "0f07ad7b5dcd2382529cdf7716f4521cfa1e9abe",
       "id": "HV4-0227",
       "repository": "geotools/geotools",
       "selection_reason": "consumer_only_N"
@@ -225,7 +225,7 @@
     {
       "auto_case_label": "U",
       "candidate_count": 31,
-      "commit": "6adee49691813493b98cbe9cc77d4d933fbb53fd",
+      "commit": "7d13a7ad6f2a17f351a6d77ce280c85ae1821f4d",
       "id": "HV4-0237",
       "repository": "github/github-mcp-server",
       "selection_reason": "all_auto_non_N"
@@ -233,7 +233,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 30,
-      "commit": "6c21f5dddb9a7877393787d57d6deab17b96736f",
+      "commit": "440bc887dd7a8479172e8e2c40037b52408e07a1",
       "id": "HV4-0245",
       "repository": "google/go-github",
       "selection_reason": "all_auto_non_N"
@@ -241,7 +241,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "47a3bfa23289c0bc4b745ce42a255dca6eeb4c6c",
+      "commit": "cc62d90c5f6e7a9ddecc0c5714d4460f0eddfb73",
       "id": "HV4-0271",
       "repository": "ibinti/bugvm",
       "selection_reason": "residual_noise_N"
@@ -249,7 +249,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 44,
-      "commit": "378624e4502254f5641548d9b85c30d3593ccffc",
+      "commit": "a12f004be53f3b3a4e8f47ae1e4d3820a57078e4",
       "id": "HV4-0282",
       "repository": "integrations/terraform-provider-github",
       "selection_reason": "all_auto_non_N"
@@ -257,7 +257,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "60585780a8d365b49f50d4e2d6db927741148acf",
+      "commit": "d0a2448ff4106023e768acb185e07f8ca7ad82fe",
       "id": "HV4-0289",
       "repository": "JacquesLucke/animation_nodes",
       "selection_reason": "consumer_only_N"
@@ -265,7 +265,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 6,
-      "commit": "8d4fab19d0c53c2198b788f6d718caa31f958a87",
+      "commit": "3ce06a073ab3547f8de130c5cf1eb7dc283b20b0",
       "id": "HV4-0294",
       "repository": "jamesscottbrown/pyyed",
       "selection_reason": "all_auto_non_N"
@@ -273,7 +273,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "e0ce753098990540953938e27910970760f8d4a0",
+      "commit": "12e196bc41190d21e8f8a2206df5cebcbd47ce6a",
       "id": "HV4-0310",
       "repository": "joekoolade/JOE",
       "selection_reason": "residual_noise_N"
@@ -281,7 +281,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 20,
-      "commit": "0261f34370d95843b8f5aee6a789a1114d758e86",
+      "commit": "d7c37bb67625cc8b505865e91ad84eccebe0cd60",
       "id": "HV4-0325",
       "repository": "kaosat-dev/Blenvy",
       "selection_reason": "all_auto_non_N"
@@ -289,7 +289,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 13,
-      "commit": "48929ed27a7ee14635428e9601d7ea761590c24c",
+      "commit": "594ad70516981348937499884358b5a65ddbb570",
       "id": "HV4-0339",
       "repository": "konstruktoid/hardened-images",
       "selection_reason": "high_signal_N"
@@ -297,7 +297,7 @@
     {
       "auto_case_label": "S",
       "candidate_count": 2,
-      "commit": "b7a9508375c6db9ea7e4a41b66dd0b3ca88ae935",
+      "commit": "8227f96ce3512071173e49c24a0df42c6b3e4c33",
       "id": "HV4-0348",
       "repository": "kv0906/pm-kit",
       "selection_reason": "all_auto_non_N"
@@ -305,7 +305,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "2ef98df3c6987aab30b4fc36db56f9e3baa01f51",
+      "commit": "ec53c83002998d3a2aa09f7e77bff260e608ee99",
       "id": "HV4-0363",
       "repository": "localemu/localemu",
       "selection_reason": "residual_noise_N"
@@ -313,7 +313,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "b2b18558c061388aac329950ded244893c48fa43",
+      "commit": "d652c2b66f2fac99fae15f9beb211797397a5a9b",
       "id": "HV4-0381",
       "repository": "marytts/marytts",
       "selection_reason": "residual_noise_N"
@@ -329,7 +329,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "5124b50201800a297a10142e6b8fa170a5c61977",
+      "commit": "8ed8cf8afc42c85f1df2b9554eed0258763552c6",
       "id": "HV4-0426",
       "repository": "NeverSight/learn-skills.dev",
       "selection_reason": "residual_noise_N"
@@ -337,7 +337,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "6bbf47dbf7944ef2fb8d30f47c21f64c980b4ee6",
+      "commit": "31dfd3f964939463ce180a42a055e897b3e25ca3",
       "id": "HV4-0439",
       "repository": "NVIDIA-Omniverse/kit-usd-agents",
       "selection_reason": "consumer_only_N"
@@ -361,7 +361,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 38,
-      "commit": "37041384e9a6dbd4dc94b45561c197b69a88a3c7",
+      "commit": "6763e900faccdd6caa804e7dcbb2ff114f71346c",
       "id": "HV4-0458",
       "repository": "OpenCTI-Platform/connectors",
       "selection_reason": "high_signal_N"
@@ -369,7 +369,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 20,
-      "commit": "423cba8a8412d61d28a5f30ff979a64cc20ce31a",
+      "commit": "1ff76e2a46ee1f8400b7efc9d5179fcd6fcfd6d4",
       "id": "HV4-0513",
       "repository": "port-labs/ocean",
       "selection_reason": "high_signal_N"
@@ -401,7 +401,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 5,
-      "commit": "a88c7fc0467f67494adeb74cf68f99742d92d6ed",
+      "commit": "fbfd371f645664a1d67e6bbf56a4a47d38eb7e6e",
       "id": "HV4-0545",
       "repository": "release-drafter/release-drafter",
       "selection_reason": "high_signal_N"
@@ -409,7 +409,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "0461dd2b78e8adf58d0cf1a4f58a0a6512c3757d",
+      "commit": "ba77b60ba7e38217f1e5c71d6c85ae6521510807",
       "id": "HV4-0553",
       "repository": "rnadigital/agentcloud",
       "selection_reason": "consumer_only_N"
@@ -417,7 +417,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 10,
-      "commit": "0e9373ba9c994799725242953722008043302858",
+      "commit": "cc4e86dee7008be727a37e299778b90452b1a41e",
       "id": "HV4-0584",
       "repository": "ship-studio/ship-studio",
       "selection_reason": "high_signal_N"
@@ -425,7 +425,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 0,
-      "commit": "723ea160509824ead8dc9102cd8af5007d8e5891",
+      "commit": "eb24656c35b7e0a248cfb21da9f1da8aa6f1a43a",
       "id": "HV4-0601",
       "repository": "sparrowzoo/sparrow-shell",
       "selection_reason": "residual_noise_N"
@@ -433,7 +433,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 3,
-      "commit": "e1c2eff41fcc042b1b3d4c2ef30421c9532401fe",
+      "commit": "c5b1699b2fce69d050c9f00e7f6c0c00bd08c6a0",
       "id": "HV4-0605",
       "repository": "spring-projects/spring-webflow",
       "selection_reason": "high_signal_N"
@@ -441,7 +441,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 1,
-      "commit": "b8c1ed5a582c2df3e88b6796fc535415fb80fa55",
+      "commit": "22d110e4289a0b4a448cf174e69c203e38fed3e1",
       "id": "HV4-0613",
       "repository": "swaggest/go-asyncapi",
       "selection_reason": "residual_noise_N"
@@ -457,7 +457,7 @@
     {
       "auto_case_label": "N",
       "candidate_count": 2,
-      "commit": "365f5b20a2f1baa54162488bab971d335079848f",
+      "commit": "9c59f16950d25e08c1058d8174e12b22861280d8",
       "id": "HV4-0669",
       "repository": "WeatherPal-AI/MCP-handle",
       "selection_reason": "high_signal_N"
