@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "scope_note": "Predeclared public holdout for the repository-discovery prototype. These repositories were not part of the eight-case discovery tuning set. Labels come from the already-frozen semantic corpus and are used only after target-blind discovery.",
+  "cases": [
+    {"id":"H01","repository":"meshery-extensions/.github","commit":"8b65434e179610f7931f90d7d7b6c1c192839c1e","target_property":"support","expected_label":"S"},
+    {"id":"H02","repository":"grandchallenge/gcl-standards","commit":"12b842d8333861ebd5eb769591bb04c02ec7d046","target_property":"constitutional_profile","expected_label":"S"},
+    {"id":"H03","repository":"goharbor/harbor","commit":"fb6f06b6cc5ae62fd5bb9de554e442f0109f1d52","target_property":"SKIP_PROXY_CACHE","expected_label":"N"},
+    {"id":"H04","repository":"hyperpolymath/palimpsest-license","commit":"215f2bc9dea38ed26da578ea7e5cd5fde531a519","target_property":"pmpl_require_signatures","expected_label":"N"}
+  ]
+}

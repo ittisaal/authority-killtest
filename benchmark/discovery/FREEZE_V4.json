@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v4",
+  "note": "Git blob SHAs for every analyzer/discovery dependency, blind runner, input manifest, and target commitment used by blind-v4. These files must not change during the raw blind-v4 run.",
+  "files": {
+    "benchmark/discovery/discover_repository.py": "f08f097bce706bfe6ed18530350d9c4e4fec4ce5",
+    "benchmark/discovery/discover_repository_tree.py": "29a10dcccba96130a215d41c641b22b70e5d8147",
+    "benchmark/discovery/discover_repository_v2.py": "1b2be07a4dec81702b92d05e452b1749afa55188",
+    "benchmark/discovery/discover_repository_v3.py": "6c6d3c43a716b09e806286e43fdf1121f53feb48",
+    "benchmark/discovery/discover_repository_v4.py": "ee7a18444c04792f84cc1db69400c3603b9a1f78",
+    "benchmark/discovery/run_blind_v4.py": "290a895ce6f6d36bb24ad9185fb83ade639ef8d0",
+    "benchmark/discovery/test_discover_repository_v4.py": "397c649c76a96d94e88c8ac264307abdb7a08f4c",
+    "benchmark/discovery/blind-v4-input.json": "cf7ea4b4c91de9c32fff206ec7c180f4441acecd",
+    "benchmark/discovery/blind-v4-target-commitment.json": "12b4305e48423c959c0042c18060d909f93fd898"
+  }
+}

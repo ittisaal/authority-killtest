@@ -1,0 +1,71 @@
+name: Candidate harvest v2
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/harvest/harvest_candidates_v1.py'
+      - 'benchmark/harvest/harvest_candidates_v2.py'
+      - 'benchmark/harvest/signatures-v2.json'
+      - '.github/workflows/candidate-harvest-v2.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  harvest-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Restore exact frozen Harvest-v1 candidate list
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p benchmark/harvest/prior-v1
+          curl -fL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/10322003755/zip" \
+            -o /tmp/harvest-v1.zip
+          echo "94825f53e1b68df5ed6e4e7e7df486055ea2d8f79dd6260eea10999cb48a0b43  /tmp/harvest-v1.zip" | sha256sum -c -
+          unzip -q /tmp/harvest-v1.zip -d benchmark/harvest/prior-v1
+          test -f benchmark/harvest/prior-v1/candidate-repositories-v1.json
+
+      - name: Run bounded Harvest-v2 and union with frozen V1
+        run: |
+          python benchmark/harvest/harvest_candidates_v2.py \
+            benchmark/harvest/signatures-v2.json \
+            --prior-candidates benchmark/harvest/prior-v1/candidate-repositories-v1.json \
+            --expected-prior-hash 952fc946adcc6dde5a5d5d4f9892ea7d61c6a2e0fd43c8e5bf8f37e85fc35ca5 \
+            --workers 4 \
+            --output-dir benchmark/harvest/out-v2
+
+      - name: Show Harvest-v2 summary
+        if: always()
+        run: |
+          if [ -f benchmark/harvest/out-v2/harvest-summary-v2.json ]; then
+            cat benchmark/harvest/out-v2/harvest-summary-v2.json
+          fi
+
+      - name: Upload Harvest-v2 and frozen union
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-harvest-v2-raw-filtered-and-union
+          path: |
+            benchmark/harvest/out-v2/raw-sourcegraph-hits-v2.jsonl
+            benchmark/harvest/out-v2/deduped-surviving-file-hits-v2.json
+            benchmark/harvest/out-v2/excluded-obvious-doc-test-example-hits-v2.json
+            benchmark/harvest/out-v2/candidate-repositories-v2.json
+            benchmark/harvest/out-v2/candidate-repositories-v2.tsv
+            benchmark/harvest/out-v2/candidate-repositories-v2.sha256
+            benchmark/harvest/out-v2/candidate-repositories-v1-v2-union.json
+            benchmark/harvest/out-v2/candidate-repositories-v1-v2-union.tsv
+            benchmark/harvest/out-v2/harvest-summary-v2.json

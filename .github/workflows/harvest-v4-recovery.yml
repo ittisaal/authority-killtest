@@ -1,0 +1,247 @@
+name: Frozen V4 recovery - one case per job
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/harvest-v4-recovery.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify frozen V4 implementation
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          freeze=json.load(open('benchmark/discovery/FREEZE_V4.json'))
+          for path, expected in freeze['files'].items():
+              actual=subprocess.check_output(['git','hash-object',path],text=True).strip()
+              if actual != expected:
+                  raise SystemExit(f'freeze mismatch: {path}: {actual} != {expected}')
+          print(f"frozen V4 files verified: {len(freeze['files'])}")
+          PY
+
+      - name: Run frozen V4 unit tests
+        run: python benchmark/discovery/test_discover_repository_v4.py
+
+  recover:
+    needs: verify
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        case_id: [3,53,63,103,153,154,203,227,253,284,287,303,304,353,357,370,373,375,386,390,403,411,417,425,426,453,454,455,467,473,475,476,477,478,479,480,482,487,501,503,527,544,553,559,569,571,575,590,603,625,626,627,641,642,653,661,678,685,691,695,698,699]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Restore frozen Harvest-v2 union
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p benchmark/harvest/frozen-v2
+          curl --retry 5 --retry-all-errors --retry-delay 3 -fL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/10322801276/zip" \
+            -o /tmp/harvest-v2.zip
+          echo "16c3b1108d4020ccb343c17e15cf79595b5ee12e2752c0afbcbf527117c55724  /tmp/harvest-v2.zip" | sha256sum -c -
+          unzip -q /tmp/harvest-v2.zip -d benchmark/harvest/frozen-v2
+
+      - name: Build exact one-case input
+        env:
+          CASE_ID: ${{ matrix.case_id }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          src=Path('benchmark/harvest/frozen-v2/candidate-repositories-v1-v2-union.json')
+          obj=json.load(open(src))
+          canonical=json.dumps(obj,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
+          actual=hashlib.sha256(canonical).hexdigest()
+          expected='7e2165033973435aee0bd50a78839c2476d2dffd3d3f89a562171f0a380ba891'
+          if actual != expected:
+              raise SystemExit(f'union hash mismatch: {actual} != {expected}')
+          case_id=int(os.environ['CASE_ID'])
+          row=obj['candidates'][case_id-1]
+          case={'id':f'HV4-{case_id:04d}','repository':row['repository'],'commit':row['commit']}
+          out={
+              'schema_version':1,
+              'experiment':'frozen-v4-harvest-recovery',
+              'source_union_canonical_sha256':expected,
+              'cases':[case],
+          }
+          Path('benchmark/harvest/v4-recovery-input.json').write_text(
+              json.dumps(out,indent=2,sort_keys=True)+'\n'
+          )
+          print(case)
+          PY
+
+      - name: Run frozen V4 with orchestration-level retry
+        run: |
+          python - <<'PY'
+          import json, subprocess, time
+          from pathlib import Path
+
+          inp='benchmark/harvest/v4-recovery-input.json'
+          out='benchmark/harvest/v4-recovery-results.json'
+          log=[]
+          for attempt in range(1, 4):
+              if Path(out).exists():
+                  Path(out).unlink()
+              p=subprocess.run([
+                  'python','benchmark/discovery/run_blind_v4.py',
+                  inp,'--workers','1','--output',out
+              ])
+              status='no-output'
+              error=None
+              if Path(out).exists():
+                  try:
+                      result=json.load(open(out))
+                      cases=result.get('cases',[])
+                      status=cases[0].get('status','unknown') if cases else 'no-case'
+                      error=cases[0].get('error') if cases else None
+                  except Exception as exc:
+                      status='invalid-output'
+                      error=repr(exc)
+              log.append({'attempt':attempt,'returncode':p.returncode,'status':status,'error':error})
+              print(f'attempt {attempt}: returncode={p.returncode} status={status}')
+              if p.returncode == 0 and status == 'ok':
+                  break
+              if attempt < 3:
+                  time.sleep(5 * attempt)
+          Path('benchmark/harvest/v4-recovery-attempts.json').write_text(
+              json.dumps(log,indent=2,sort_keys=True)+'\n'
+          )
+          PY
+
+      - name: Upload recovery result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-v4-recovery-${{ matrix.case_id }}
+          path: |
+            benchmark/harvest/v4-recovery-input.json
+            benchmark/harvest/v4-recovery-results.json
+            benchmark/harvest/v4-recovery-attempts.json
+
+  combine:
+    needs: recover
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: frozen-v4-recovery-*
+          path: benchmark/harvest/recovery-artifacts
+
+      - name: Restore prior partial scale artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl --retry 5 --retry-all-errors --retry-delay 3 -fL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/10328915011/zip" \
+            -o /tmp/v4-scale-partial.zip
+          echo "b541d2982e449da1710ab96164ca3489e83172c55ee714ab4411076f2ba857f8  /tmp/v4-scale-partial.zip" | sha256sum -c -
+          mkdir -p benchmark/harvest/prior-partial
+          unzip -q /tmp/v4-scale-partial.zip -d benchmark/harvest/prior-partial
+
+      - name: Merge recovery outputs into the frozen partial result
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+
+          base_path=Path('benchmark/harvest/prior-partial/v4-scale-chunked-results.json')
+          base=json.load(open(base_path))
+          by_id={row['id']:row for row in base['cases']}
+          original_ids=set(by_id)
+          previous_errors={row['id'] for row in base['cases'] if row.get('status')!='ok'}
+
+          recovery_files=list(Path('benchmark/harvest/recovery-artifacts').rglob('v4-recovery-results.json'))
+          applied=[]
+          for path in recovery_files:
+              try:
+                  obj=json.load(open(path))
+              except Exception:
+                  continue
+              for row in obj.get('cases',[]):
+                  by_id[row['id']]=row
+                  applied.append(row['id'])
+
+          expected_ids={f'HV4-{i:04d}' for i in range(1,700)}
+          missing=sorted(expected_ids-set(by_id))
+          rows=[by_id[k] for k in sorted(by_id)]
+
+          labels=Counter()
+          candidate_count=0
+          owners=set()
+          for row in rows:
+              owners.add(row['repository'].split('/',1)[0])
+              candidate_count += row.get('candidate_count',0)
+              for c in row.get('candidates',[]):
+                  labels[c['label']] += 1
+
+          remaining_errors=[row['id'] for row in rows if row.get('status')!='ok']
+          summary={
+              'expected_cases':699,
+              'cases_present':len(rows),
+              'successful_cases':sum(row.get('status')=='ok' for row in rows),
+              'error_cases':len(remaining_errors),
+              'distinct_owners':len(owners),
+              'total_discovered_candidates':candidate_count,
+              'candidate_labels':{k:labels.get(k,0) for k in ('U','S','N')},
+              'source_union_canonical_sha256':'7e2165033973435aee0bd50a78839c2476d2dffd3d3f89a562171f0a380ba891',
+              'recovery':{
+                  'requested_cases':62,
+                  'recovery_result_files':len(recovery_files),
+                  'applied_case_ids':sorted(set(applied)),
+                  'previous_error_cases':len(previous_errors),
+                  'previous_missing_cases':699-len(original_ids),
+                  'remaining_missing_case_ids':missing,
+                  'remaining_error_case_ids':remaining_errors,
+              },
+              'claim_boundary':'Candidate-search output only. Automatic candidate labels are not prevalence or manual ground truth.'
+          }
+          result={'experiment':'frozen-v4-harvest-recovery-combined','summary':summary,'cases':rows}
+          Path('benchmark/harvest/v4-scale-recovered-results.json').write_text(
+              json.dumps(result,indent=2,sort_keys=True)+'\n'
+          )
+          Path('benchmark/harvest/v4-scale-recovered-summary.json').write_text(
+              json.dumps(summary,indent=2,sort_keys=True)+'\n'
+          )
+          print(json.dumps(summary,indent=2,sort_keys=True))
+          PY
+
+      - name: Upload recovered frozen V4 result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-v4-harvest-recovered-results
+          path: |
+            benchmark/harvest/v4-scale-recovered-results.json
+            benchmark/harvest/v4-scale-recovered-summary.json

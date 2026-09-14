@@ -1,0 +1,65 @@
+name: Blind repository discovery v1
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/discovery/blind-v1-input.json'
+      - 'benchmark/discovery/blind-v1-target-commitment.json'
+      - 'benchmark/discovery/FREEZE_V1.json'
+      - 'benchmark/discovery/run_blind_v1.py'
+      - 'benchmark/discovery/verify_freeze.py'
+      - 'benchmark/discovery/BLIND_V1.md'
+      - '.github/workflows/blind-discovery-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  blind-v1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen analyzer
+        run: python benchmark/discovery/verify_freeze.py
+      - name: Reject scoring-field leakage
+        run: |
+          python - <<'PY'
+          import json
+          p='benchmark/discovery/blind-v1-input.json'
+          data=json.load(open(p))
+          bad={'target_property','expected_label','label'}
+          for case in data['cases']:
+              leak=bad & set(case)
+              if leak:
+                  raise SystemExit(f"{case['id']} leaks {sorted(leak)}")
+          print(f"blind inputs verified: {len(data['cases'])} cases")
+          PY
+      - name: Run frozen target-blind discovery
+        run: |
+          python benchmark/discovery/run_blind_v1.py \
+            benchmark/discovery/blind-v1-input.json \
+            --output benchmark/discovery/blind-v1-raw-results.json
+      - name: Show raw summary
+        run: |
+          python - <<'PY'
+          import json
+          p='benchmark/discovery/blind-v1-raw-results.json'
+          data=json.load(open(p))
+          print(json.dumps(data['summary'], indent=2, sort_keys=True))
+          for case in data['cases']:
+              print(case['id'], case['repository'], 'status=', case['status'],
+                    'candidates=', case['candidate_count'],
+                    'labels=', [x['label'] for x in case['candidates']])
+          PY
+      - name: Upload raw blind results
+        uses: actions/upload-artifact@v4
+        with:
+          name: blind-discovery-v1-raw-results
+          path: benchmark/discovery/blind-v1-raw-results.json

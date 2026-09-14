@@ -1,0 +1,63 @@
+name: Public corpus raw-evidence evaluation
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/public-corpus/**'
+      - '.github/workflows/public-corpus-raw-eval.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  raw-evidence-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Unit tests
+        run: python -m pytest -q benchmark/public-corpus/test_*.py
+      - name: Extract and decide from exact frozen evidence files
+        run: |
+          python benchmark/public-corpus/decide_extraction.py \
+            benchmark/public-corpus/corpus.json \
+            --output benchmark/public-corpus/raw-extraction-results.json
+          python benchmark/public-corpus/decide_extraction.py \
+            benchmark/public-corpus/deep-dive-additions.json \
+            --output benchmark/public-corpus/deep-dive-addition-results.json
+      - name: Show evaluation summary
+        run: |
+          python - <<'PY'
+          import json
+          paths = [
+              'benchmark/public-corpus/raw-extraction-results.json',
+              'benchmark/public-corpus/deep-dive-addition-results.json',
+          ]
+          total = 0
+          matches = 0
+          for p in paths:
+              data=json.load(open(p))
+              print('\n', p)
+              print(json.dumps(data['summary'], indent=2, sort_keys=True))
+              for c in data['cases']:
+                  print(c['id'], c['label'], c['extracted'], 'fetch_errors=', len(c['fetch_errors']))
+              if any(c['fetch_errors'] for c in data['cases']):
+                  raise SystemExit('one or more frozen evidence files could not be fetched')
+              total += data['summary']['raw_evidence_label_total']
+              matches += data['summary']['raw_evidence_label_matches']
+          print(f'combined frozen-evidence regression: {matches}/{total}')
+          if matches != total:
+              raise SystemExit('frozen-evidence regression mismatch')
+          PY
+      - name: Upload raw extraction results
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-extraction-results
+          path: |
+            benchmark/public-corpus/raw-extraction-results.json
+            benchmark/public-corpus/deep-dive-addition-results.json

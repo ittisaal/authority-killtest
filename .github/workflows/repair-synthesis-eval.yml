@@ -1,0 +1,35 @@
+name: Repair synthesis regression
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/repair-synthesis/**'
+      - '.github/workflows/repair-synthesis-eval.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repair-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Unit tests
+        run: python -m pytest -q benchmark/repair-synthesis/test_repair_cut.py
+      - name: Example repair frontier
+        run: |
+          python benchmark/repair-synthesis/repair_cut.py \
+            benchmark/repair-synthesis/example_two_path.json \
+            --output benchmark/repair-synthesis/example_result.json
+          cat benchmark/repair-synthesis/example_result.json
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: repair-synthesis-example
+          path: benchmark/repair-synthesis/example_result.json

@@ -1,0 +1,22 @@
+{
+  "artifact_id": 10322003755,
+  "artifact_name": "candidate-harvest-v1-raw-and-filtered",
+  "artifact_zip_sha256": "94825f53e1b68df5ed6e4e7e7df486055ea2d8f79dd6260eea10999cb48a0b43",
+  "candidate_list_sha256_canonical_json": "952fc946adcc6dde5a5d5d4f9892ea7d61c6a2e0fd43c8e5bf8f37e85fc35ca5",
+  "candidate_tsv_sha256": "2b34bb3e79195dc10dae129d4074b4e2a44311c5fd7df98ff2a4ba6a3b709dcd",
+  "claim_boundary": "Candidate-search universe only; not prevalence and not GitHub-wide coverage. Sourcegraph-indexed public GitHub repositories only.",
+  "deduped_file_hits_before_path_filter": 1477,
+  "distinct_surviving_repositories": 248,
+  "excluded_obvious_hits": 698,
+  "experiment": "candidate-harvest-v1",
+  "frozen_before_v4": true,
+  "query_failures": 0,
+  "raw_signature_hit_rows": 1647,
+  "schema_version": 1,
+  "source_head_sha": "23cad7e40a7074b77894dec6d66c301fe3075a1a",
+  "source_job_id": 103762316290,
+  "source_run_id": 34771690119,
+  "surviving_file_hits": 779,
+  "surviving_repo_commit_candidates": 248,
+  "v4_status": "not_run_on_harvest_candidates"
+}
