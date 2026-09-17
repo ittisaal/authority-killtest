@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "scope": "Executable repair model for the four completed controlled unsafe compositions. Costs are relative assumptions, not measurements.",
+  "paths": [
+    {
+      "id": "U1-gcp-oidc",
+      "description": "repo-editable security_tier -> GitHub OIDC claim -> GCP WIF -> IAM project-read",
+      "cuts": ["R-security-tier-org-only", "R-gcp-independent-immutable-guard"]
+    },
+    {
+      "id": "U2-jfrog-oidc",
+      "description": "repo-editable security_tier -> GitHub OIDC claim -> JFrog dynamic group -> repository-read",
+      "cuts": ["R-security-tier-org-only", "R-jfrog-independent-immutable-guard"]
+    },
+    {
+      "id": "U3-required-security-gate-bypass",
+      "description": "repo-editable security_scan_policy -> required security-gate reports success without scan",
+      "cuts": ["R-u3-fixed-org-only-floor", "R-u3-safe-value-domain", "R-u3-policy-org-only"]
+    },
+    {
+      "id": "U4-ruleset-selection-bypass",
+      "description": "repo-editable branch_protection_profile -> repository exits org ruleset -> direct update becomes possible",
+      "cuts": ["R-u4-profile-org-only", "R-u4-independent-baseline-ruleset"]
+    }
+  ],
+  "repairs": [
+    {
+      "id": "R-security-tier-org-only",
+      "description": "Change security_tier values_editable_by to org_actors; one upstream repair cuts both external OIDC paths.",
+      "cost": {"automation_disruption": 2, "admin_scope": 2, "downstream_changes": 0},
+      "evidence": "structurally supported; live post-repair rerun requires organization-admin mutation"
+    },
+    {
+      "id": "R-gcp-independent-immutable-guard",
+      "description": "Require an independently controlled GCP condition/attribute in addition to the repo-derived property.",
+      "cost": {"automation_disruption": 0, "admin_scope": 1, "downstream_changes": 1},
+      "evidence": "executable model only; live GCP policy mutation not performed in this pass"
+    },
+    {
+      "id": "R-jfrog-independent-immutable-guard",
+      "description": "Require an independently controlled JFrog mapping/permission condition in addition to the repo-derived property.",
+      "cost": {"automation_disruption": 0, "admin_scope": 1, "downstream_changes": 1},
+      "evidence": "executable model only; live JFrog policy mutation not performed in this pass"
+    },
+    {
+      "id": "R-u3-fixed-org-only-floor",
+      "description": "Add org-only security_floor=enforced so bypass cannot suppress the scan.",
+      "cost": {"automation_disruption": 0, "admin_scope": 1, "downstream_changes": 0},
+      "evidence": "empirically demonstrated by controlled S2"
+    },
+    {
+      "id": "R-u3-safe-value-domain",
+      "description": "Restrict mutable selector to values whose semantics all preserve scanning.",
+      "cost": {"automation_disruption": 1, "admin_scope": 1, "downstream_changes": 0},
+      "evidence": "empirically demonstrated by controlled S3"
+    },
+    {
+      "id": "R-u3-policy-org-only",
+      "description": "Make security_scan_policy value org-only.",
+      "cost": {"automation_disruption": 2, "admin_scope": 1, "downstream_changes": 0},
+      "evidence": "structurally supported; live post-repair rerun requires organization-admin mutation"
+    },
+    {
+      "id": "R-u4-profile-org-only",
+      "description": "Make branch_protection_profile value org-only so the bounded repo actor cannot exit the target set.",
+      "cost": {"automation_disruption": 1, "admin_scope": 1, "downstream_changes": 0},
+      "evidence": "structurally supported; public MIT tier case independently demonstrates the org-only boundary"
+    },
+    {
+      "id": "R-u4-independent-baseline-ruleset",
+      "description": "Keep a baseline protection rule whose applicability does not depend on the mutable profile selector.",
+      "cost": {"automation_disruption": 0, "admin_scope": 2, "downstream_changes": 1},
+      "evidence": "executable model only"
+    }
+  ]
+}
