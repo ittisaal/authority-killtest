@@ -28,8 +28,17 @@ jobs:
             benchmark/repair-synthesis/example_two_path.json \
             --output benchmark/repair-synthesis/example_result.json
           cat benchmark/repair-synthesis/example_result.json
-      - name: Upload result
+      - name: Verify controlled U1-U4 repairs
+        run: |
+          python -m py_compile benchmark/repair-synthesis/verify_controlled_repairs.py
+          python benchmark/repair-synthesis/verify_controlled_repairs.py \
+            benchmark/repair-synthesis/controlled_u1_u4_repairs.json \
+            --output benchmark/repair-synthesis/controlled_u1_u4_repair_results.json
+          cat benchmark/repair-synthesis/controlled_u1_u4_repair_results.json
+      - name: Upload results
         uses: actions/upload-artifact@v4
         with:
-          name: repair-synthesis-example
-          path: benchmark/repair-synthesis/example_result.json
+          name: repair-synthesis-evaluation
+          path: |
+            benchmark/repair-synthesis/example_result.json
+            benchmark/repair-synthesis/controlled_u1_u4_repair_results.json
