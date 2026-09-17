@@ -1,0 +1,21 @@
+{
+  "schema_version": 5,
+  "experiment": "blind-v5",
+  "scope_note": "Fresh candidate-enriched public snapshot set selected only after FREEZE_V5.json was committed. All 14 owners are absent from the prior blind-v1..v4 owner sets and from the 699-case Harvest-v2 owner set. Discovery receives only id, repository, and exact commit. Manual strict labels are precommitted separately and withheld from the analyzer. This is not a prevalence sample.",
+  "cases": [
+    {"id":"V501","repository":"alphazede/bran","commit":"c40e003e2ab16839cdcad2e084a9f24659e32329"},
+    {"id":"V502","repository":"meshery-extensions/.github","commit":"8b65434e179610f7931f90d7d7b6c1c192839c1e"},
+    {"id":"V503","repository":"grandchallenge/MATH-PROGRAMME","commit":"050bde21b0dabb25ae4120d3e2c8d0e271a0efc2"},
+    {"id":"V504","repository":"mindclade-old-2/github-config-old","commit":"48a73b2bc6a72f4f4bba2dbc6d4fd6e7ab6955f6"},
+    {"id":"V505","repository":"aj-foster/open-api-github","commit":"143bbe19eea8f1656d5dd75705104b6d545d96e0"},
+    {"id":"V506","repository":"Yuunano108/soenneker.github.openapiclient","commit":"28ff47f248305fc6f91e710f41d6ed40365e1028"},
+    {"id":"V507","repository":"sous-chefs/yum-fedora","commit":"4f53034d246ea846476bc7508fa0f14cef6f5086"},
+    {"id":"V508","repository":"eseidel/analyzer_crash","commit":"2e058a3f902953d71e20f8f59a4070564549def4"},
+    {"id":"V509","repository":"mlops-club/sagemaker-exploration","commit":"9302ae4c4879ec751cd2d1345478d08eb39aff37"},
+    {"id":"V510","repository":"iq220/octokit","commit":"5c3edd6b1186592f47ca5722f7b6b808f3708fd9"},
+    {"id":"V511","repository":"dex2dot0/ODCForgeAssets","commit":"84045d21440185acbaa813f5e40e7c8199689b23"},
+    {"id":"V512","repository":"awaisstack/Coral-CFO","commit":"1cfa8064513eff8831444c2df689f4f564b6d0d3"},
+    {"id":"V513","repository":"QCDIS/kms-elasticsearch-api","commit":"510a1f7b6f9708244ad2da33fcc809471fb481ba"},
+    {"id":"V514","repository":"fa22-bse-058-droid/forge","commit":"663f60fac39548730cd294e647e1983d9c73791e"}
+  ]
+}

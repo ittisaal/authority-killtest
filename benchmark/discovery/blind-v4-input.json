@@ -1,0 +1,21 @@
+{
+  "schema_version": 4,
+  "experiment": "blind-v4",
+  "scope_note": "Fresh candidate-enriched public snapshot set selected after V4 development was complete. Discovery receives only id, repository, and exact commit. Target properties and labels are withheld. This is not a prevalence sample.",
+  "cases": [
+    {"id":"V401","repository":"SpiceLabsHQ/.github","commit":"cc0267886b6061eeaba22d303a22cdd4c1a2215c"},
+    {"id":"V402","repository":"hyperpolymath/palimpsest-license","commit":"215f2bc9dea38ed26da578ea7e5cd5fde531a519"},
+    {"id":"V403","repository":"goharbor/harbor","commit":"fb6f06b6cc5ae62fd5bb9de554e442f0109f1d52"},
+    {"id":"V404","repository":"pypi/warehouse","commit":"5748d68e3bfc64f2ae732ab98e4b8c7d1c004ecb"},
+    {"id":"V405","repository":"platformdevorg/aws-oidc-auth-custom-github-property","commit":"0dc7012219c65b88a4b8aca5dded47afaddc1350"},
+    {"id":"V406","repository":"ktdreyer/quay-oidc-demo","commit":"c1baa73e6ec2089ec2d0c1d5bdf6a54a46890ad0"},
+    {"id":"V407","repository":"seaworld008/Commonly-used-high-value-skills","commit":"3fc422be9b7d50672eaceb5cebd2024af40c5ff8"},
+    {"id":"V408","repository":"SamuelChien/mega-skills-collection","commit":"c2b1fdccc779e99ac814e55fb69ca8d71215dd0f"},
+    {"id":"V409","repository":"eparon/oidc-secure-api-github-actions","commit":"3c13c59369eac04582ac98a6fd1c52d957e710b2"},
+    {"id":"V410","repository":"nathanfaucett/agents","commit":"2548387b77fd947ca98858b0c51fc3d71080fa4c"},
+    {"id":"V411","repository":"Eyal-R-Webiks/Abstractive_QA","commit":"299f305ff6ef18505587fc0760efc147769a731d"},
+    {"id":"V412","repository":"go-go-golems/glazed","commit":"a7fdfda5e3c6dc5567003d6c695620542fd3936c"},
+    {"id":"V413","repository":"PyGithub/PyGithub","commit":"9152817c2d437282d46e7822e825dcf7e3a3e947"},
+    {"id":"V414","repository":"unified-systems-com/tap-plugin-github-core","commit":"a163c29c028c0e2632ac31ccb1f3df1f3738cab6"}
+  ]
+}

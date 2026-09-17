@@ -1,0 +1,50 @@
+name: Candidate harvest v1
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/harvest/harvest_candidates_v1.py'
+      - 'benchmark/harvest/signatures-v1.json'
+      - '.github/workflows/candidate-harvest-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run public candidate harvest and cheap filter
+        run: |
+          python benchmark/harvest/harvest_candidates_v1.py \
+            benchmark/harvest/signatures-v1.json \
+            --workers 3 \
+            --output-dir benchmark/harvest/out
+
+      - name: Show harvest summary
+        if: always()
+        run: |
+          if [ -f benchmark/harvest/out/harvest-summary-v1.json ]; then
+            cat benchmark/harvest/out/harvest-summary-v1.json
+          fi
+
+      - name: Upload raw and filtered harvest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-harvest-v1-raw-and-filtered
+          path: |
+            benchmark/harvest/out/raw-sourcegraph-hits.jsonl
+            benchmark/harvest/out/deduped-surviving-file-hits.json
+            benchmark/harvest/out/excluded-obvious-doc-test-example-hits.json
+            benchmark/harvest/out/candidate-repositories-v1.json
+            benchmark/harvest/out/candidate-repositories-v1.tsv
+            benchmark/harvest/out/candidate-repositories-v1.sha256
+            benchmark/harvest/out/harvest-summary-v1.json

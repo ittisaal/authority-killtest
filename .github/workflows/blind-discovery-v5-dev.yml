@@ -1,0 +1,25 @@
+name: Blind V5 development validation
+
+on:
+  pull_request:
+    paths:
+      - 'benchmark/discovery/discover_repository_v5.py'
+      - 'benchmark/discovery/test_discover_repository_v5.py'
+      - '.github/workflows/blind-discovery-v5-dev.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile V5
+        run: python -m py_compile benchmark/discovery/discover_repository_v5.py benchmark/discovery/test_discover_repository_v5.py
+      - name: Run V5 deployment-provenance tests
+        run: python benchmark/discovery/test_discover_repository_v5.py

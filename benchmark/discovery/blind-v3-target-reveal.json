@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v3",
+  "cases": [
+    {"id": "V301", "target_property": "security_level"},
+    {"id": "V302", "target_property": "project_pretty_name"},
+    {"id": "V303", "target_property": "project_pretty_name"},
+    {"id": "V304", "target_property": "ci_slack_channel"},
+    {"id": "V305", "target_property": "modrinth_id"},
+    {"id": "V306", "target_property": "fruit"},
+    {"id": "V307", "target_property": "human-title"},
+    {"id": "V308", "target_property": "ci_slack_channel"},
+    {"id": "V309", "target_property": "human-title"},
+    {"id": "V310", "target_property": "environment_tier"},
+    {"id": "V311", "target_property": "environment_tier"},
+    {"id": "V312", "target_property": "environment_tier"},
+    {"id": "V313", "target_property": "environment_tier"},
+    {"id": "V314", "target_property": "environment_tier"}
+  ]
+}

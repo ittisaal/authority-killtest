@@ -1,0 +1,21 @@
+{
+  "schema_version": 3,
+  "experiment": "blind-v3",
+  "scope_note": "Fresh candidate-enriched public snapshot set selected after the v3 analyzer freeze. Discovery receives only id, repository, and exact commit. Target properties and labels are withheld. This is not a prevalence sample.",
+  "cases": [
+    {"id":"V301","repository":"anubissbe/supply-chain-guard-github","commit":"ab7fa500446dccd375ca93684b3abcd9bc9e95c4"},
+    {"id":"V302","repository":"Team-Immersive-Intelligence/ImmersiveIntelligence","commit":"1b6883883f85a3c0b1565cbad8bd400913822fdc"},
+    {"id":"V303","repository":"Immersive-Geology-Team/Immersive-Geology","commit":"73a897135391f55abf829ff86d0bc24344df5379"},
+    {"id":"V304","repository":"kronostechnologies/tax-ca","commit":"83cba0c9e7324255f6e66071f5d15a14bb30fe66"},
+    {"id":"V305","repository":"cloudnode-pro/BankAccounts","commit":"76f76fd87aa92542288f8c2d50455e8a5fb18f92"},
+    {"id":"V306","repository":"kwacky1-inc/probable-octo-fortnight","commit":"1122f00714bcdad50b19f306e993f99d1513d904"},
+    {"id":"V307","repository":"a8cteam51/team51-project-scaffold","commit":"e7d189764732d522c31a017637b9d4c0d3b859e3"},
+    {"id":"V308","repository":"equisoft-actions/php-workflows","commit":"22503eaae2a336475b7d33c98eaa5bbe3f43dadc"},
+    {"id":"V309","repository":"gin0115/phpstan-workshop","commit":"59b751ac950c8be1bbef6a973f6b0307eff32aa2"},
+    {"id":"V310","repository":"Mandoa-Labs/BM-25-Search","commit":"ae883e478ebb205ee71141cb792cb0950f6e38d6"},
+    {"id":"V311","repository":"brunosilvaaircompany/copilot-knowledge-base","commit":"30aa6683131754321451271392787b3d2ade9e04"},
+    {"id":"V312","repository":"CallmeShini/docsrag-observatory","commit":"7232d1fe1058c2acdf1aed71c133e18b86a447a4"},
+    {"id":"V313","repository":"joeblackwaslike/agent-skills","commit":"a2b750da9187c4682addcd339e019e3f2188ca49"},
+    {"id":"V314","repository":"borahanmirzaii/github-mastery-notebook","commit":"719a35fe6e084f3dd25dc915289b400ebc879fb8"}
+  ]
+}

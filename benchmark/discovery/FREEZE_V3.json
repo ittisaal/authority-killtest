@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v3",
+  "note": "Git blob SHAs for every semantic/discovery dependency used by blind-v3. These files must not change during the raw blind-v3 run.",
+  "files": {
+    "benchmark/discovery/discover_repository.py": "f08f097bce706bfe6ed18530350d9c4e4fec4ce5",
+    "benchmark/discovery/discover_repository_tree.py": "29a10dcccba96130a215d41c641b22b70e5d8147",
+    "benchmark/discovery/discover_repository_v2.py": "1b2be07a4dec81702b92d05e452b1749afa55188",
+    "benchmark/discovery/discover_repository_v3.py": "6c6d3c43a716b09e806286e43fdf1121f53feb48",
+    "benchmark/discovery/run_blind_v3.py": "f12f6cd114e84fc8096cca4e7adb4b222d0cb4f3",
+    "benchmark/discovery/test_discover_repository_v3.py": "cf87fed26eac20b532e92ff415b732ebed948832"
+  }
+}

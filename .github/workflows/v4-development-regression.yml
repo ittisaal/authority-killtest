@@ -1,0 +1,27 @@
+name: V4 development regression
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  v4-dev:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python benchmark/discovery/test_discover_repository_v4.py
+      - name: Recheck blind-v3 cases as development data
+        run: python benchmark/discovery/evaluate_v4_on_v3.py
+      - name: Upload development results
+        uses: actions/upload-artifact@v4
+        with:
+          name: v4-v3-development-results
+          path: benchmark/discovery/v4-v3-dev-results.json
