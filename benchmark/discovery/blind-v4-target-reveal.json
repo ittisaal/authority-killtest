@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v4",
+  "cases": [
+    {
+      "id": "V401",
+      "target_property": "automerge-humans"
+    },
+    {
+      "id": "V402",
+      "target_property": "pmpl_require_signatures"
+    },
+    {
+      "id": "V403",
+      "target_property": "SKIP_PROXY_CACHE"
+    },
+    {
+      "id": "V404",
+      "target_property": "env_tier"
+    },
+    {
+      "id": "V405",
+      "target_property": "team_id"
+    },
+    {
+      "id": "V406",
+      "target_property": "team"
+    },
+    {
+      "id": "V407",
+      "target_property": "environment"
+    },
+    {
+      "id": "V408",
+      "target_property": "environment"
+    },
+    {
+      "id": "V409",
+      "target_property": "workspace_id"
+    },
+    {
+      "id": "V410",
+      "target_property": "env_tier"
+    },
+    {
+      "id": "V411",
+      "target_property": "env_tier"
+    },
+    {
+      "id": "V412",
+      "target_property": "env_tier"
+    },
+    {
+      "id": "V413",
+      "target_property": "property_1"
+    },
+    {
+      "id": "V414",
+      "target_property": "lifecycle"
+    }
+  ]
+}

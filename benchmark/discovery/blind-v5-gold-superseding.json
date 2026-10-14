@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v5",
+  "status": "superseding-independent-blind-adjudication",
+  "historical_gold_commitment": {
+    "commit": "4e480a266f0b8471ee3e18626e1e7a1948c59a30",
+    "sha256": "b95a219fd74461408af82b3fc9ad7de740d98505ad6834bce6aefebb05fc594d",
+    "preimage_recovered": false
+  },
+  "adjudication_note": "Fresh independent adjudication of all 14 frozen snapshots under the already-frozen strict U/S/N rubric, performed blind to V5 predictions. This file supersedes the earlier post-run 0U/2S/12N reconstruction and is not claimed to be the recovered preimage of the historical commitment.",
+  "distribution": {"U":0,"S":3,"N":11},
+  "cases": [
+    {"id":"V501","label":"S","reason":"delivery_profile is consumed by bran-fast.yml, but the skip path additionally requires github.repository == 'alphazede/bran-dev'; for the evaluated repository alphazede/bran that immutable identity guard is false, so the property cannot suppress the check."},
+    {"id":"V502","label":"S","reason":"The support schema sets values_editable_by to org_actors, excluding the bounded repository actor from direct value mutation if the schema is active; visible consumers manage support metadata/topics/badges rather than privilege-bearing authorization."},
+    {"id":"V503","label":"N","reason":"Governance/routing evidence exists, but the frozen snapshot does not establish a decisive bounded-repository-actor property-mutation-to-protection-delta chain."},
+    {"id":"V504","label":"S","reason":"mindclade_repository_class is explicitly org_actors-only while feeding governance/ruleset machinery, so the bounded repository actor is excluded from the mutation step."},
+    {"id":"V505","label":"N","reason":"Generic GitHub OpenAPI client/schema implementation, not a deployed repository-specific authority-to-protection composition."},
+    {"id":"V506","label":"N","reason":"Generated Kiota GitHub API client material, not a deployed policy composition."},
+    {"id":"V507","label":"N","reason":"Security-sensitive release automation exists, but no local custom-property selector with a proven bounded-repository-actor authority chain is established."},
+    {"id":"V508","label":"N","reason":"Generated GitHub API model/client code, not deployed repository policy."},
+    {"id":"V509","label":"N","reason":"Vendored PyGithub code in a Lambda layer with no linked repository-specific authorization decision."},
+    {"id":"V510","label":"N","reason":"Generated .NET/Octokit API client models, not deployed repository-specific policy."},
+    {"id":"V511","label":"N","reason":"No concrete GitHub repository custom-property authority-to-policy chain is established."},
+    {"id":"V512","label":"N","reason":"Manual evidence is vendored PyGithub under .venv-camel/Lib/site-packages, not deployed policy; the automatic V5 outcome remains E because the scan errored."},
+    {"id":"V513","label":"N","reason":"Manual evidence is vendored PyGithub under .indexer/lib64/python3.12/site-packages, not deployed policy; the automatic V5 outcome remains E because the scan errored."},
+    {"id":"V514","label":"N","reason":"Relevant custom-property material is vendored PyGithub in a backend virtual environment, not deployed repository policy."}
+  ]
+}

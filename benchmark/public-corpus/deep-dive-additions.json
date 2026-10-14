@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-09-13",
+  "scope_note": "Additional public case found in the final deep-dive pass. Not a prevalence sample.",
+  "cases": [
+    {
+      "id": "C12",
+      "repository": "mitodl/ol-infrastructure",
+      "commit": "8f063b9e38c06492e61e63d107b3b84100c23329",
+      "property": "tier",
+      "expected_label": "safe",
+      "facts": {
+        "actor_can_modify": false,
+        "consumer_relation": "policy_edge",
+        "marginal_protection_delta": null,
+        "security_reducing_state_reachable": false,
+        "independent_guard_blocks": null,
+        "evidence_complete": true
+      },
+      "reason": "The tier value selects active organization rulesets, while the property definition explicitly restricts value changes to organization actors. The source notes that repository-level re-tiering could otherwise change the protection scope.",
+      "evidence": [
+        "https://github.com/mitodl/ol-infrastructure/blob/8f063b9e38c06492e61e63d107b3b84100c23329/src/ol_infrastructure/saas/github/organization/custom_properties.py",
+        "https://github.com/mitodl/ol-infrastructure/blob/8f063b9e38c06492e61e63d107b3b84100c23329/src/ol_infrastructure/saas/github/organization/org_rulesets.py"
+      ]
+    }
+  ]
+}

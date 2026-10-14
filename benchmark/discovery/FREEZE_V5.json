@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v5",
+  "frozen_before_fresh_blind_selection": true,
+  "note": "Git blob SHAs for deployment-aware V5 and its regression dependencies. V5 was derived only from predeclared broad-evaluation failure classes before selecting the fresh blind-v5 repositories. Frozen V4 remains unchanged and is imported as a dependency.",
+  "validation": {
+    "workflow_run_id": 35189607168,
+    "workflow_name": "Blind V5 development validation",
+    "conclusion": "success"
+  },
+  "files": {
+    "benchmark/discovery/FREEZE_V4.json": "e48e7f4868bed44e35cdad0ddeb7ec8cc166087c",
+    "benchmark/discovery/discover_repository_v5.py": "88944fcf3f02daada246c6e89646442ce9ffc769",
+    "benchmark/discovery/test_discover_repository_v5.py": "d5948dde6d44a93dc14c0473d6da563b509bf482",
+    "benchmark/discovery/run_blind_v5.py": "689bf41aac7f5674fc1a6423b039963c3353a205"
+  },
+  "frozen_rules": [
+    "No V5 semantic change after fresh blind-v5 repository selection.",
+    "No fresh blind-v5 case may be used to tune V5.",
+    "Errors and unknowns remain separate from N.",
+    "Generated/tests/docs/examples/reference material cannot by itself support U or S.",
+    "U promotion requires non-reference repo-editable authority, a direct named deployed consumer, and non-reference protection-reducing semantics."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v1",
+  "frozen_analyzer_commit": "e56207986fdc1410c4c166abcf8b6e80cdd470c3",
+  "frozen_before_blind_run": true,
+  "files": {
+    "benchmark/discovery/discover_repository.py": "f08f097bce706bfe6ed18530350d9c4e4fec4ce5",
+    "benchmark/discovery/discover_repository_tree.py": "29a10dcccba96130a215d41c641b22b70e5d8147",
+    "benchmark/public-corpus/extract_evidence.py": "6ae4290035021cbe6ce7cdba5c271243aee78af8"
+  },
+  "rule": "Do not modify these analyzer files during blind-v1. Record misses/errors as outcomes; any later tuning must be evaluated in a separately named experiment."
+}

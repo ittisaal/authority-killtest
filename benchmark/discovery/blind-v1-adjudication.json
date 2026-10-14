@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v1",
+  "adjudication_scope": "Manual post-run adjudication of the predeclared target property's repo-visible chain. S means no privilege/protection edge was found for the observed target use; N means public evidence is insufficient. External/private organization state can still change an S/N assessment and is outside this snapshot review.",
+  "cases": [
+    {"id":"B01","strict_label":"N","qualified_status":"U* operational","reason":"maintenance controls whether scheduled vulnerability scanning runs, but repository-level editability of the deployed property is not publicly observed."},
+    {"id":"B02","strict_label":"N","qualified_status":null,"reason":"security_level appears in a security/ruleset implementation guide, but deployed property authority and deployment state are not established."},
+    {"id":"B03","strict_label":"S","qualified_status":null,"reason":"project_pretty_name is used as display metadata in a Discord commit notification; no repo-visible privilege/protection edge was found."},
+    {"id":"B04","strict_label":"S","qualified_status":null,"reason":"project_pretty_name is used as display metadata in a Discord notification; no repo-visible privilege/protection edge was found."},
+    {"id":"B05","strict_label":"S","qualified_status":null,"reason":"ci_slack_channel selects the destination for workflow-status notification; no repo-visible authorization or enforcement decision depends on it."},
+    {"id":"B06","strict_label":"N","qualified_status":null,"reason":"modrinth_id selects an external release publication target; repository edit authority and downstream token entitlement/marginal authority are not established."},
+    {"id":"B07","strict_label":"S","qualified_status":null,"reason":"ci_slack_channel is a workflow-status notification destination with no repo-visible authorization/enforcement edge."},
+    {"id":"B08","strict_label":"N","qualified_status":null,"reason":"modrinth_id selects an external release publication target; property authority and downstream entitlement are not publicly established."},
+    {"id":"B09","strict_label":"S","qualified_status":null,"reason":"fruit selects between demonstration echo steps in a read-all workflow; no privilege/protection delta is present."},
+    {"id":"B10","strict_label":"N","qualified_status":null,"reason":"VPC is detected through an aggregate custom-properties read and changes generated Terraform planning behavior; property authority and an effective apply/privilege delta are not established."},
+    {"id":"B11","strict_label":"N","qualified_status":"U* demo","reason":"skip-harden-runner=true causes the hardening action to return without installing/enforcing; repository-level editability is not publicly established for this demo property."},
+    {"id":"B12","strict_label":"S","qualified_status":null,"reason":"team_identifier is synchronized ownership/team metadata in the inspected infrastructure code; no repo-visible protection or authorization consumer was found."},
+    {"id":"B13","strict_label":"N","qualified_status":null,"reason":"modrinth_id selects an external release publication target; property authority and downstream entitlement are not publicly established."},
+    {"id":"B14","strict_label":"N","qualified_status":null,"reason":"modrinth_id selects an external release publication target; property authority and downstream entitlement are not publicly established."},
+    {"id":"B15","strict_label":"S","qualified_status":null,"reason":"ci_slack_channel selects a workflow-status notification destination; no repo-visible authorization/enforcement edge was found."},
+    {"id":"B16","strict_label":"S","qualified_status":null,"reason":"ci_slack_channel selects a workflow-status notification destination; no repo-visible authorization/enforcement edge was found."},
+    {"id":"B17","strict_label":"N","qualified_status":null,"reason":"ci_slack_channel also routes notifications from a security workflow; repository edit authority and whether notification routing is a required protection are not established."},
+    {"id":"B18","strict_label":"S","qualified_status":null,"reason":"ci_slack_channel is used for workflow-status notification; no repo-visible privilege/protection edge was found."},
+    {"id":"B19","strict_label":"S","qualified_status":null,"reason":"ci_slack_channel is used for workflow-status notification; no repo-visible privilege/protection edge was found."},
+    {"id":"B20","strict_label":"S","qualified_status":null,"reason":"project_pretty_name is display metadata for Discord commit/release notifications; no repo-visible privilege/protection edge was found."},
+    {"id":"B21","strict_label":"S","qualified_status":null,"reason":"Technology-Pillar is written as repository metadata by provisioning code; no consumer that changes privilege/protection was found in the inspected snapshot."}
+  ],
+  "strict_distribution":{"U":0,"S":12,"N":9},
+  "qualified_notes":{"operational_U_star":["B01"],"demo_U_star":["B11"]},
+  "note":"U* is an annotation, not a replacement for the strict U/S/N label. It means the effect side is strong but at least one decisive public authority/deployment fact remains unobserved."
+}

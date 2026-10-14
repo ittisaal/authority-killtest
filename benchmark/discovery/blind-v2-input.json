@@ -1,0 +1,21 @@
+{
+  "schema_version": 2,
+  "experiment": "blind-v2",
+  "scope_note": "Fresh candidate-enriched public snapshot set selected after blind-v1. Discovery receives only id, repository, and exact commit. Target properties and labels are withheld. This is not a prevalence sample.",
+  "cases": [
+    {"id":"V201","repository":"step-security/harden-runner","commit":"e14015d583714f6e62063499dc959a02595150a1"},
+    {"id":"V202","repository":"DFE-Digital/service-security-posture-hardening","commit":"5d73ef5973a6b47afed90307cbe42eb7aee92255"},
+    {"id":"V203","repository":"seorilabs/.github","commit":"2edc637118d1bfe712b0750870586941ce0916fb"},
+    {"id":"V204","repository":"Finatext/orgu","commit":"d12643628d4299ccd6ebfa5870d5af9c3a88de9f"},
+    {"id":"V205","repository":"open-telemetry/opentelemetry-collector-contrib","commit":"babc3d0fe9959b83400da0a52819260ecce9a7d0"},
+    {"id":"V206","repository":"tspascoal/get-repo-properties-action","commit":"a6a78d19b36a20508d3ada29947984fe69843c48"},
+    {"id":"V207","repository":"joshjohanning/joshjohanning.github.io","commit":"a78326dcd64a80dd0ee2e977e61741b3a7d6230f"},
+    {"id":"V208","repository":"OneUptime/blog","commit":"7b75f21b0a41a02533dc33a995004b315abf34a6"},
+    {"id":"V209","repository":"github/docs","commit":"078b5832caa5cde591c2babb389ef447a0ef66eb"},
+    {"id":"V210","repository":"olorehq/olore","commit":"430d86ca6c508c3da4eef03c5493da00f68c521c"},
+    {"id":"V211","repository":"rancher/harbor","commit":"8c79be72ece787d1d9335982e66f7a9799227cf3"},
+    {"id":"V212","repository":"truster-dev/truster","commit":"aae09935dd406b9512c09fedf64edf88eace4102"},
+    {"id":"V213","repository":"spiffe/spire-identity-exchange","commit":"11f82a346dff3c07c9bc51266987121190354285"},
+    {"id":"V214","repository":"simota/agent-skills","commit":"9f7d77adc30fd39f039871081d26aaf7bf60f54d"}
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "experiment": "blind-v4",
+  "schema_version": 1,
+  "target_manifest_canonicalization": "UTF-8 JSON with insertion-order keys, separators=(',', ':'), no trailing newline",
+  "target_manifest_sha256": "8caca968ab7bde612fa2184c962ac5ef70c3b6d116d418d9ec4f0f3922379c57",
+  "note": "The target-property manifest is withheld until the raw blind-v4 artifact exists. This commitment does not contain labels and is not consumed by the analyzer."
+}

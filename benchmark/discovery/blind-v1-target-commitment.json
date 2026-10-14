@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v1",
+  "target_manifest_sha256": "4eef1734a8035399046158d87d9515c3f32dbd756b243981fc6f51685592bb0a",
+  "target_case_count": 21,
+  "canonicalization": "UTF-8 JSON with sort_keys=true, separators=(',',':'), ensure_ascii=false over the withheld target manifest.",
+  "contains_labels": false,
+  "note": "The committed digest predeclares the post-run target-property manifest without exposing target names to the discovery driver. Expected U/S/N labels are not part of this commitment and will be adjudicated only after the raw run."
+}

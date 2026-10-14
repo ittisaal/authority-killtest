@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "scope_note": "Controlled benchmark. U and S are semantic outcomes; N is an evidence-state outcome when the supplied observation is incomplete.",
+  "cases": [
+    {
+      "id": "SYN-U1",
+      "name": "editable check-policy selector",
+      "origin": "controlled-live-U3",
+      "semantic_truth": "U",
+      "expected_observation": "U",
+      "evidence_complete": true,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "protection_reducing_state_observed": true,
+        "independent_guard_observed": false,
+        "marginal_delta_observed": true
+      }
+    },
+    {
+      "id": "SYN-U2",
+      "name": "editable organization-rule selector",
+      "origin": "controlled-live-U4",
+      "semantic_truth": "U",
+      "expected_observation": "U",
+      "evidence_complete": true,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "protection_reducing_state_observed": true,
+        "independent_guard_observed": false,
+        "marginal_delta_observed": true
+      }
+    },
+    {
+      "id": "SYN-U3",
+      "name": "one editable value reaches two composed consumers",
+      "origin": "synthetic-composed",
+      "semantic_truth": "U",
+      "expected_observation": "U",
+      "evidence_complete": true,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "composed_policy_edge",
+        "protection_reducing_state_observed": true,
+        "independent_guard_observed": false,
+        "marginal_delta_observed": true
+      }
+    },
+    {
+      "id": "SYN-S1",
+      "name": "editable local selector with fixed independent floor",
+      "origin": "controlled-live-S2",
+      "semantic_truth": "S",
+      "expected_observation": "S",
+      "evidence_complete": true,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "protection_reducing_state_observed": true,
+        "independent_guard_observed": true,
+        "marginal_delta_observed": false
+      }
+    },
+    {
+      "id": "SYN-S2",
+      "name": "editable profile with no reducing value in its domain",
+      "origin": "controlled-live-S3",
+      "semantic_truth": "S",
+      "expected_observation": "S",
+      "evidence_complete": true,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "protection_reducing_state_observed": false,
+        "independent_guard_observed": false,
+        "marginal_delta_observed": false
+      }
+    },
+    {
+      "id": "SYN-S3",
+      "name": "editable metadata with confirmed no policy edge",
+      "origin": "synthetic-metadata-only",
+      "semantic_truth": "S",
+      "expected_observation": "S",
+      "evidence_complete": true,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "confirmed_no_policy_edge",
+        "protection_reducing_state_observed": false,
+        "independent_guard_observed": false,
+        "marginal_delta_observed": false
+      }
+    },
+    {
+      "id": "SYN-S4",
+      "name": "alternate path reaches a capability already present initially",
+      "origin": "synthetic-marginal-delta",
+      "semantic_truth": "S",
+      "expected_observation": "S",
+      "evidence_complete": true,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "protection_reducing_state_observed": true,
+        "independent_guard_observed": false,
+        "marginal_delta_observed": false
+      }
+    },
+    {
+      "id": "SYN-N1",
+      "name": "U system viewed without write-authority evidence",
+      "origin": "incomplete-view-of-U",
+      "semantic_truth": "U",
+      "expected_observation": "N",
+      "evidence_complete": false,
+      "observation": {
+        "actor_can_modify": null,
+        "consumer_relation": "policy_edge",
+        "protection_reducing_state_observed": true,
+        "independent_guard_observed": false,
+        "marginal_delta_observed": true
+      }
+    },
+    {
+      "id": "SYN-N2",
+      "name": "S system viewed without independent-floor evidence",
+      "origin": "incomplete-view-of-S",
+      "semantic_truth": "S",
+      "expected_observation": "N",
+      "evidence_complete": false,
+      "observation": {
+        "actor_can_modify": true,
+        "consumer_relation": "policy_edge",
+        "protection_reducing_state_observed": true,
+        "independent_guard_observed": null,
+        "marginal_delta_observed": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v2",
+  "targets": [
+    {"id":"V201","target_property":"skip-harden-runner"},
+    {"id":"V202","target_property":"portfolio"},
+    {"id":"V203","target_property":"fleet-managed"},
+    {"id":"V204","target_property":"team"},
+    {"id":"V205","target_property":"service_tier"},
+    {"id":"V206","target_property":"testproperty"},
+    {"id":"V207","target_property":"team"},
+    {"id":"V208","target_property":"team"},
+    {"id":"V209","target_property":"environment_tier"},
+    {"id":"V210","target_property":"environment_tier"},
+    {"id":"V211","target_property":"SKIP_PROXY_CACHE"},
+    {"id":"V212","target_property":"workspace_id"},
+    {"id":"V213","target_property":"team"},
+    {"id":"V214","target_property":"environment"}
+  ]
+}

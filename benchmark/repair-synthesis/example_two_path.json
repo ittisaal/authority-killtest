@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "scope_note": "Illustrative repair-cost model for two independent downstream paths fed by the same policy-bearing metadata. Costs are relative operator inputs, not measured timings or prevalence data.",
+  "paths": [
+    {
+      "id": "cloud-read-path",
+      "cuts": ["centralize_property_write", "remove_property_from_identity_claim", "narrow_cloud_mapping"]
+    },
+    {
+      "id": "artifact-read-path",
+      "cuts": ["centralize_property_write", "remove_property_from_identity_claim", "narrow_artifact_mapping"]
+    }
+  ],
+  "repairs": [
+    {
+      "id": "centralize_property_write",
+      "description": "Restrict the policy-bearing property to centrally controlled writers.",
+      "cost": {
+        "automation_disruption": 3,
+        "admin_scope": 2,
+        "affected_repositories": 6,
+        "downstream_systems_touched": 0
+      }
+    },
+    {
+      "id": "remove_property_from_identity_claim",
+      "description": "Stop exporting this property as an identity-policy input.",
+      "cost": {
+        "automation_disruption": 2,
+        "admin_scope": 2,
+        "affected_repositories": 6,
+        "downstream_systems_touched": 0
+      }
+    },
+    {
+      "id": "narrow_cloud_mapping",
+      "description": "Change only the cloud-side mapping/condition so the property cannot create the extra permission.",
+      "cost": {
+        "automation_disruption": 0,
+        "admin_scope": 1,
+        "affected_repositories": 1,
+        "downstream_systems_touched": 1
+      }
+    },
+    {
+      "id": "narrow_artifact_mapping",
+      "description": "Change only the artifact-side mapping/condition so the property cannot create the extra permission.",
+      "cost": {
+        "automation_disruption": 0,
+        "admin_scope": 1,
+        "affected_repositories": 1,
+        "downstream_systems_touched": 1
+      }
+    }
+  ]
+}

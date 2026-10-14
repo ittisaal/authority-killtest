@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v2",
+  "frozen": true,
+  "files": {
+    "benchmark/discovery/discover_repository_v2.py": "1b2be07a4dec81702b92d05e452b1749afa55188",
+    "benchmark/discovery/run_blind_v2.py": "7d30ff96f29b75d13c692cbc4b4be19ed0b6b000",
+    "benchmark/discovery/test_discover_repository_v2.py": "bdb108fa496757955282f753c6ec8a839adba98a",
+    "benchmark/discovery/blind-v2-input.json": "466d5d3ae4f6be13b0c1a78948591c5edb23bf27",
+    "benchmark/discovery/blind-v2-target-commitment.json": "671845e5d4e919a9dab373a9942adbce7d216a6b"
+  },
+  "note": "Git blob SHAs are verified before the raw blind-v2 run. No analyzer tuning is permitted after the run starts."
+}

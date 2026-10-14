@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "experiment": "blind-v3",
+  "target_manifest_encoding": "canonical JSON with sort_keys=true and separators=(',', ':')",
+  "target_manifest_sha256": "ddeeab167aa66258ddca375ea17c6c1035c82024da64f0bb9a4877fad124c961",
+  "target_count": 14,
+  "note": "Target property names are withheld from the repository until after the raw blind-v3 artifact exists."
+}

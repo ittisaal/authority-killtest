@@ -1,0 +1,7 @@
+{
+  "experiment": "blind-v5",
+  "schema_version": 1,
+  "gold_manifest_canonicalization": "UTF-8 JSON with insertion-order keys, separators=(',', ':'), no trailing newline",
+  "gold_manifest_sha256": "b95a219fd74461408af82b3fc9ad7de740d98505ad6834bce6aefebb05fc594d",
+  "note": "Manual strict U/S/N labels and reasons were adjudicated from the frozen public snapshots after V5 was frozen but before V5 was run on these cases. The gold manifest is withheld until the raw blind-v5 artifact exists."
+}

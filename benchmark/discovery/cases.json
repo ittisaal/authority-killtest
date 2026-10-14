@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "scope_note": "Target-blind repository snapshot discovery evaluation. The discoverer receives repository and commit only; target property names and expected U/S/N labels are withheld until scoring.",
+  "cases": [
+    {"id":"D01","repository":"mcp-research/mcp-security-scans","commit":"3ff410faa96d2808f5c50580bde4ec6812f11db5","target_property":"GHAS_Status_Updated","expected_label":"U"},
+    {"id":"D02","repository":"swimblocks/.github","commit":"320c1f5f2d28095874e84d66ff9c392840ce1d0f","target_property":"settings_version","expected_label":"N"},
+    {"id":"D03","repository":"SpiceLabsHQ/.github","commit":"cc0267886b6061eeaba22d303a22cdd4c1a2215c","target_property":"automerge-humans","expected_label":"S"},
+    {"id":"D04","repository":"Verjson/.github","commit":"a7f14e69f0784cdfb620f327fa30bcf1db46d253","target_property":"verjson-node-floor","expected_label":"S"},
+    {"id":"D05","repository":"hmcts/github-repository-rules","commit":"c859e1f24d3980cc6b4e1736589fd7b57468cf99","target_property":"is_production","expected_label":"N"},
+    {"id":"D06","repository":"dryvist/tofu-github","commit":"f4ab5cb75f87d98f56b3b3bf8e69930198a30621","target_property":"docs","expected_label":"S"},
+    {"id":"D07","repository":"callmegreg-demo-org/codeql-central-config","commit":"092a1e4d2ca0a08cb0b8f01a6ebdc8e44aa308d0","target_property":"Application_Business_Criticality","expected_label":"N"},
+    {"id":"D08","repository":"mitodl/ol-infrastructure","commit":"8f063b9e38c06492e61e63d107b3b84100c23329","target_property":"tier","expected_label":"S"}
+  ]
+}
