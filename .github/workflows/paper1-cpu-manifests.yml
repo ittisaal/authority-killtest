@@ -1,0 +1,54 @@
+name: Paper 1 public CPU shard manifest smoke test
+
+on:
+  push:
+    branches: [paper1-cpu-compute]
+    paths:
+      - 'paper1_compute/**'
+      - '.github/workflows/paper1-cpu-manifests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-shard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [tep_b1, tep_bounded_b3, tep_bounded_b5, hai_b1, hai_b2, hai_frozen_random, tep_stronger_attacker, tep_cross_detector]
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate workload manifest (not experiment results)
+        run: |
+          python3 paper1_compute/manifest.py \
+            --family '${{ matrix.family }}' --shard '${{ matrix.shard }}' \
+            --shards 4 --output 'out/${{ matrix.family }}-${{ matrix.shard }}.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jobs-${{ matrix.family }}-${{ matrix.shard }}
+          path: out/*.json
+          if-no-files-found: error
+          retention-days: 7
+  verify-manifest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [build-shard]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: jobs-*
+          path: collected
+          merge-multiple: true
+      - name: Verify full shard coverage
+        run: |
+          python3 paper1_compute/manifest.py --verify-dir collected --output verified-workload.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-paper1-workload
+          path: verified-workload.json
+          retention-days: 30
