@@ -10,6 +10,13 @@ HAI = ["P1_FT01","P1_FT02","P1_FT03","P1_LIT01","P1_PIT01",
 HAI_HELDOUT = ["A03","A06","A10","A14","A19","A22","A26","A33","A42","A45","A50","A55"]
 HAI_SEEDS = [283,293,307,311,313]
 TEP_SEEDS = [269,271,277]
+TEP_FROZEN_PROTOCOL_SHA256 = '9f0118d17ad66e7a2c9f8aa0980affc5a41a3d2f9e5a624abfa9890d13f6b263'
+# The 72 IDs below were checked one-by-one against the 2026-08-21 frozen Step44A2 V2 protocol.
+# This is a scheduling snapshot only. Executors MUST re-check the frozen protocol hash.
+TEP_CONFIG_IDS = [f'XMV{i}_{direction}__severity_{severity}'
+                  for i in range(1,13) for direction in ('minus','plus')
+                  for severity in ('low','medium','high')]
+assert len(TEP_CONFIG_IDS) == len(set(TEP_CONFIG_IDS)) == 72
 TEP_FAMILIES = [f"XMV{i}_{d}" for i in range(1,13) for d in ["minus","plus"]]
 V2 = {3:("XMEAS(4)","XMEAS(9)","XMEAS(18)"),
       5:("XMEAS(1)","XMEAS(9)","XMEAS(10)","XMEAS(18)","XMEAS(21)")}
@@ -32,7 +39,7 @@ def make(family):
         rng=random.Random(317 if b==3 else 331)
         while len(seen)<(90+(1 if b==3 else 2)):
             seen.add(tuple(sorted(rng.sample(TEP,b))))
-        return [row(family,protected_sensors=list(s),budget=b) for s in sorted(seen)]
+        return [row(family,protected_sensors=list(s),budget=b,\n                    provisional_candidate_pool=True) for s in sorted(seen)]
     if family in ("hai_b1","hai_b2"):
         b=1 if family=="hai_b1" else 2
         return [row(family,protected_sensors=list(s),budget=b) for s in itertools.combinations(HAI,b)]
@@ -42,10 +49,10 @@ def make(family):
                     requires_frozen_ranking=True)
                 for seed in HAI_SEEDS for b in [1,2,3,5] for attack in HAI_HELDOUT]
     if family in ("tep_stronger_attacker","tep_cross_detector"):
-        return [row(family,simulator_seed=seed,attack_family=attack,severity=sev,
+        return [row(family,simulator_seed=seed,attack_config_id=config_id,
+                    frozen_protocol_sha256=TEP_FROZEN_PROTOCOL_SHA256,
                     requires_frozen_trajectory=True)
-                for seed in TEP_SEEDS for attack in TEP_FAMILIES
-                for sev in ["low","medium","high"]]
+                for seed in TEP_SEEDS for config_id in TEP_CONFIG_IDS]
     raise ValueError(family)
 
 def main():
