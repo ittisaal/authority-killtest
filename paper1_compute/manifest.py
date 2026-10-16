@@ -39,7 +39,8 @@ def make(family):
         rng=random.Random(317 if b==3 else 331)
         while len(seen)<(90+(1 if b==3 else 2)):
             seen.add(tuple(sorted(rng.sample(TEP,b))))
-        return [row(family,protected_sensors=list(s),budget=b,\n                    provisional_candidate_pool=True) for s in sorted(seen)]
+        return [row(family,protected_sensors=list(s),budget=b,
+                    provisional_candidate_pool=True) for s in sorted(seen)]
     if family in ("hai_b1","hai_b2"):
         b=1 if family=="hai_b1" else 2
         return [row(family,protected_sensors=list(s),budget=b) for s in itertools.combinations(HAI,b)]
