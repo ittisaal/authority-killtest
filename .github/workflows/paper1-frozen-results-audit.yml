@@ -1,0 +1,26 @@
+name: Paper 1 frozen TEP results statistical audit (CPU)
+on:
+  push:
+    branches: [paper1-cpu-compute]
+    paths:
+      - 'paper1_compute/analysis/**'
+      - '.github/workflows/paper1-frozen-results-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-results-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Calculate paired family-level frozen-result comparison
+        working-directory: paper1_compute/analysis
+        run: python3 report_paired.py
+      - name: Preserve reproducibility report
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper1-frozen-statistical-audit
+          path: paper1_compute/analysis/audit-results.json
+          if-no-files-found: error
+          retention-days: 30
