@@ -1,11 +1,6 @@
 name: Paper 1 public CPU shard manifest smoke test
 
 on:
-  push:
-    branches: [paper1-cpu-compute]
-    paths:
-      - 'paper1_compute/**'
-      - '.github/workflows/paper1-cpu-manifests.yml'
   workflow_dispatch:
 
 permissions:
